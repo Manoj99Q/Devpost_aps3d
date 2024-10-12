@@ -11,9 +11,8 @@ const Play = () => {
             </div>
             <div className="w-3/4 bg-gray-400">
                 <Map3D 
-                    center="41.828875, -87.621025" 
+                    center="41.828875, -87.621025,1000" 
                     tilt="67.5"
-                    zoom="18"
                 />
             </div>
         </div>
