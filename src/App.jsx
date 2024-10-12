@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
 import Play from './pages/Play'
+import Map3DModelTest from './components/Map3DModelTest'
 
 function App() {
   useEffect(() => {
@@ -32,9 +33,10 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      <div className="flex-grow overflow-hidden">
+      {/* <div className="flex-grow overflow-hidden">
         <Play />
-      </div>
+      </div> */}
+      <Map3DModelTest />
     </div>
   )
 }
