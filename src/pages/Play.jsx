@@ -1,5 +1,4 @@
 import React from 'react';
-import Map3D from '../components/Map3D';
 import Map3DModelTest from '../components/Map3DModelTest';
 import Map3DAdvanced from '../components/Map3DAdvanced';
 
