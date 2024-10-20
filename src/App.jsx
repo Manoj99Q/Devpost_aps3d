@@ -33,10 +33,10 @@ function App() {
   return (
     <div className="flex flex-col h-screen">
       <Navbar />
-      {/* <div className="flex-grow overflow-hidden">
+      <div className="flex-grow overflow-hidden">
         <Play />
-      </div> */}
-      <Map3DModelTest />
+      </div>
+      {/* <Map3DModelTest /> */}
     </div>
   )
 }
