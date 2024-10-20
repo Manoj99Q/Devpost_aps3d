@@ -12,7 +12,7 @@ const Map3D = () => {
         return;
       }
       const googleMaps = window.google.maps;
-      googleMaps.importLibrary("maps3d").then(({ Map3DElement, Model3DElement }) => {
+      googleMaps.importLibrary("maps3d").then(({ Map3DElement}) => {
 
         const map = new Map3DElement({
           center: {lat: 41.8781, lng: -87.6298, altitude: 1800},
@@ -24,25 +24,7 @@ const Map3D = () => {
         mapRef.current.appendChild(map);
         setMapInstance(map);
 
-        const models = [
-          {
-            position: {lat: 41.8781, lng: -87.6298, altitude: 0},
-            orientation: {tilt: 270},
-          },
-          // ... other models ...
-        ];
 
-        models.forEach(({position, altitudeMode, orientation, scale}) => {
-          const model = new Model3DElement({
-            src: 'path/to/your/model.glb', // Replace with your actual GLB file URL
-            position,
-            altitudeMode,
-            orientation,
-            scale,
-          });
-
-          map.appendChild(model);
-        });
       }).catch(err => {
         console.error('Error importing maps3d library:', err);
         setError('Error importing maps3d library');

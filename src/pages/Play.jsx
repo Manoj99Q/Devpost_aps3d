@@ -12,9 +12,9 @@ const Play = () => {
             </div>
 
 
-                {/* <Map3D /> */}
+                <Map3D />
 
-          <Model3D />
+          {/* <Model3D /> */}
         </div>
     );
 };
