@@ -16,7 +16,7 @@ const Play = () => {
                     tilt="67.5"
                 />
             </div> */}
-            <div className="w-3/4 bg-gray-400">
+            <div className="w-3/4 bg-gray-400 h-full">
                 <Map3DModelTest />
             </div>
         </div>
