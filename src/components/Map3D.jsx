@@ -6,37 +6,12 @@ const Map3D = ({ apiKey }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadGoogleMapsApi = () => {
-      return new Promise((resolve, reject) => {
-        if (window.google && window.google.maps) {
-          resolve(window.google.maps);
-          return;
-        }
-
-        const script = document.createElement('script');
-        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=alpha&callback=initMap`;
-        script.async = true;
-        script.defer = true;
-        
-        window.initMap = () => {
-          if (window.google && window.google.maps) {
-            resolve(window.google.maps);
-          } else {
-            reject(new Error('Google Maps API failed to load'));
-          }
-        };
-
-        script.onerror = () => {
-          reject(new Error('Failed to load Google Maps API script'));
-        };
-
-        document.head.appendChild(script);
-      });
-    };
-
     const initMap = async () => {
       try {
-        const googleMaps = await loadGoogleMapsApi();
+        if (!window.google || !window.google.maps) {
+          throw new Error('Google Maps API is not loaded');
+        }
+        const googleMaps = window.google.maps;
         const { Map3DElement, Model3DElement } = await google.maps.importLibrary("maps3d");
 
         const map = new Map3DElement({
