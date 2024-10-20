@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Map3DAdvanced = ({ apiKey }) => {
+const Map3D = ({ apiKey }) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [error, setError] = useState(null);
@@ -93,4 +93,4 @@ const Map3DAdvanced = ({ apiKey }) => {
   return <div ref={mapRef} style={{ height: '100%', width: '100%' }}></div>;
 };
 
-export default Map3DAdvanced;
+export default Map3D;
