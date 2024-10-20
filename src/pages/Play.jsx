@@ -4,7 +4,7 @@ import Map3D from '../components/Map3D';
 
 const Play = () => {
     return (
-        <div className="flex flex-row h-screen w-full">
+        <div className="flex flex-row h-full w-full overflow-hidden">
             <div className="w-1/4 bg-gray-200 p-4 overflow-auto">
                 <h2 className="text-xl font-bold mb-4">Left Section</h2>
                 <p>Left Section Content</p>

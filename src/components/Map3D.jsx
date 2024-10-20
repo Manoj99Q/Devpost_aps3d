@@ -90,7 +90,7 @@ const Map3D = ({ apiKey }) => {
     return <div>Error loading map: {error}</div>;
   }
 
-  return <div ref={mapRef} style={{ height: '100%', width: '100%' }}></div>;
+  return <div ref={mapRef} style={{ height: '100vh', width: '100vw', overflow: 'hidden' }}></div>;
 };
 
 export default Map3D;
