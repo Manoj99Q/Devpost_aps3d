@@ -1,5 +1,5 @@
 import React from 'react';
-import Map3DModelTest from '../components/Map3DModelTest';
+import DModel from '../components/3DModel';
 import Map3D from '../components/Map3D';
 
 const Play = () => {

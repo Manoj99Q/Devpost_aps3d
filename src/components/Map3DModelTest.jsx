@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const Map3DModelTest = () => {
+const DModel = () => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -101,4 +101,4 @@ const Map3DModelTest = () => {
   return <div ref={mapRef} style={{ height: '100vh', width: '100%' }}></div>;
 };
 
-export default Map3DModelTest;
+export default DModel;

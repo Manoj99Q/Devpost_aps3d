@@ -4,7 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import Navbar from './components/Navbar'
 import Play from './pages/Play'
-import Map3DModelTest from './components/Map3DModelTest'
+import DModel from './components/3DModel'
 
 function App() {
   useEffect(() => {
