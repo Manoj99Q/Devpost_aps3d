@@ -1,6 +1,6 @@
 import React from 'react';
 import Map3DModelTest from '../components/Map3DModelTest';
-import Map3DAdvanced from '../components/Map3DAdvanced';
+import Map3D from '../components/Map3D';
 
 const Play = () => {
     return (
@@ -20,7 +20,7 @@ const Play = () => {
                 <Map3DModelTest />
             </div> */}
 
-                <Map3DAdvanced />
+                <Map3D />
         </div>
     );
 };
