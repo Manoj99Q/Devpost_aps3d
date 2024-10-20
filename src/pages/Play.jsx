@@ -1,6 +1,6 @@
 import React from 'react';
-import DModel from '../components/3DModel';
 import Map3D from '../components/Map3D';
+import Model3D from '../components/Model3D';
 
 const Play = () => {
     return (
@@ -21,6 +21,8 @@ const Play = () => {
             </div> */}
 
                 <Map3D />
+
+          {/* <Model3D /> */}
         </div>
     );
 };
