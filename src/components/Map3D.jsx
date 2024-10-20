@@ -37,7 +37,7 @@ const Map3D = ({ apiKey }) => {
     const initMap = async () => {
       try {
         const googleMaps = await loadGoogleMapsApi();
-        const { Map3DElement, Model3DElement } = await googleMaps.importLibrary("maps3d");
+        const { Map3DElement, Model3DElement } = await google.maps.importLibrary("maps3d");
 
         const map = new Map3DElement({
           center: {lat: 37.7438, lng: -121.5088, altitude: 1800},
