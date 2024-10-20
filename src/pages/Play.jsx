@@ -1,5 +1,6 @@
 import React from 'react';
 import Map3D from '../components/Map3D';
+import Map3DModelTest from '../components/Map3DModelTest';
 
 const Play = () => {
     return (
@@ -9,11 +10,14 @@ const Play = () => {
                 <p>Left Section Content</p>
 
             </div>
-            <div className="w-3/4 bg-gray-400">
+            {/* <div className="w-3/4 bg-gray-400">
                 <Map3D 
                     center="41.828875, -87.621025,1000" 
                     tilt="67.5"
                 />
+            </div> */}
+            <div className="w-3/4 bg-gray-400">
+                <Map3DModelTest />
             </div>
         </div>
     );
