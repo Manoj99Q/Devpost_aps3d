@@ -33,7 +33,7 @@ function App() {
   return (
     <div className="flex flex-col h-screen overflow-hidden">
       <Navbar />
-      <div className="flex-grow overflow-hidden">
+      <div className="flex-grow flex overflow-hidden">
         <Play />
       </div>
       {/* <Map3DModelTest /> */}
