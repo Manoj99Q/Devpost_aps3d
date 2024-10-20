@@ -98,7 +98,7 @@ const Map3DModelTest = () => {
     };
   }, []);
 
-  return <div ref={mapRef} style={{ height: '100vh', width: '100%' }}></div>;
+  return <div ref={mapRef} style={{ height: 'calc(100vh - 64px)', width: '100%' }}></div>;
 };
 
 export default Map3DModelTest;
