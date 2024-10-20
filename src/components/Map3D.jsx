@@ -15,7 +15,7 @@ const Map3D = ({ apiKey }) => {
       googleMaps.importLibrary("maps3d").then(({ Map3DElement, Model3DElement }) => {
 
         const map = new Map3DElement({
-          center: {lat: 37.7438, lng: -121.5088, altitude: 1800},
+          center: {lat: 41.8781, lng: -87.6298, altitude: 1800},
           heading: -90,
           tilt: 90,
           defaultLabelsDisabled: true,
@@ -26,7 +26,7 @@ const Map3D = ({ apiKey }) => {
 
         const models = [
           {
-            position: {lat: 37.76, lng: -121.63, altitude: 0},
+            position: {lat: 41.8781, lng: -87.6298, altitude: 0},
             orientation: {tilt: 270},
           },
           // ... other models ...
