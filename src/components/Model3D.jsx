@@ -1,6 +1,7 @@
+
 import React, { useEffect, useRef } from 'react';
 
-const DModel = () => {
+const Model3D = () => {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
 
@@ -101,4 +102,4 @@ const DModel = () => {
   return <div ref={mapRef} style={{ height: '100vh', width: '100%' }}></div>;
 };
 
-export default DModel;
+export default Model3D;
