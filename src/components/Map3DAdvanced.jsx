@@ -74,10 +74,12 @@ const Map3DAdvanced = ({ apiKey }) => {
       }
     };
 
-    initMap();
+    if (!mapInstance) {
+      initMap();
+    }
 
     return () => {
-      if (mapInstance) {
+      if (mapInstance && mapRef.current.contains(mapInstance)) {
         mapRef.current.removeChild(mapInstance);
       }
       delete window.initMap;
