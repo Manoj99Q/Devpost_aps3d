@@ -6,13 +6,13 @@ const Map3D = ({ apiKey }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const initMap = async () => {
-      try {
-        if (!window.google || !window.google.maps) {
-          throw new Error('Google Maps API is not loaded');
-        }
-        const googleMaps = window.google.maps;
-        const { Map3DElement, Model3DElement } = await google.maps.importLibrary("maps3d");
+    const initMap = () => {
+      if (!window.google || !window.google.maps) {
+        console.error('Google Maps API is not loaded');
+        return;
+      }
+      const googleMaps = window.google.maps;
+      googleMaps.importLibrary("maps3d").then(({ Map3DElement, Model3DElement }) => {
 
         const map = new Map3DElement({
           center: {lat: 37.7438, lng: -121.5088, altitude: 1800},
@@ -43,10 +43,10 @@ const Map3D = ({ apiKey }) => {
 
           map.appendChild(model);
         });
-      } catch (err) {
-        console.error('Error initializing map:', err);
-        setError(err.message);
-      }
+      }).catch(err => {
+        console.error('Error importing maps3d library:', err);
+        setError('Error importing maps3d library');
+      });
     };
 
     if (!mapInstance) {
