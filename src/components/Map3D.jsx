@@ -1,45 +1,96 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-const Map3D = ({ center, tilt = "67.5" }) => {
+const Map3DAdvanced = ({ apiKey }) => {
   const mapRef = useRef(null);
+  const [mapInstance, setMapInstance] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const initMap = async () => {
-      if (!mapRef.current) return;
+    const loadGoogleMapsApi = () => {
+      return new Promise((resolve, reject) => {
+        if (window.google && window.google.maps) {
+          resolve(window.google.maps);
+          return;
+        }
 
-      const { Map3DElement } = await google.maps.importLibrary("maps3d");
-      
-      // Parse the center string into an object
-      const [lat, lng, altitude] = center.split(',').map(Number);
-      
-      const map = new Map3DElement({
-        center: { lat, lng, altitude },
-        tilt: parseFloat(tilt),
-        defaultLabelsDisabled: true,
+        const script = document.createElement('script');
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&v=alpha&callback=initMap`;
+        script.async = true;
+        script.defer = true;
+        
+        window.initMap = () => {
+          if (window.google && window.google.maps) {
+            resolve(window.google.maps);
+          } else {
+            reject(new Error('Google Maps API failed to load'));
+          }
+        };
+
+        script.onerror = () => {
+          reject(new Error('Failed to load Google Maps API script'));
+        };
+
+        document.head.appendChild(script);
       });
-
-      mapRef.current.appendChild(map);
     };
 
-    if (window.google && window.google.maps) {
+    const initMap = async () => {
+      try {
+        const googleMaps = await loadGoogleMapsApi();
+        const { Map3DElement, Model3DElement } = await googleMaps.importLibrary("maps3d");
+
+        const map = new Map3DElement({
+          center: {lat: 37.7438, lng: -121.5088, altitude: 1800},
+          heading: -90,
+          tilt: 90,
+          defaultLabelsDisabled: true,
+        });
+
+        mapRef.current.appendChild(map);
+        setMapInstance(map);
+
+        const models = [
+          {
+            position: {lat: 37.76, lng: -121.63, altitude: 0},
+            orientation: {tilt: 270},
+          },
+          // ... other models ...
+        ];
+
+        models.forEach(({position, altitudeMode, orientation, scale}) => {
+          const model = new Model3DElement({
+            src: 'path/to/your/model.glb', // Replace with your actual GLB file URL
+            position,
+            altitudeMode,
+            orientation,
+            scale,
+          });
+
+          map.appendChild(model);
+        });
+      } catch (err) {
+        console.error('Error initializing map:', err);
+        setError(err.message);
+      }
+    };
+
+    if (!mapInstance) {
       initMap();
-    } else {
-      const checkGoogleMaps = setInterval(() => {
-        if (window.google && window.google.maps) {
-          clearInterval(checkGoogleMaps);
-          initMap();
-        }
-      }, 100);
     }
 
     return () => {
-      if (mapRef.current && mapRef.current.firstChild) {
-        mapRef.current.removeChild(mapRef.current.firstChild);
+      if (mapInstance && mapRef.current.contains(mapInstance)) {
+        mapRef.current.removeChild(mapInstance);
       }
+      delete window.initMap;
     };
-  }, [center, tilt]);
+  }, [apiKey]);
+
+  if (error) {
+    return <div>Error loading map: {error}</div>;
+  }
 
   return <div ref={mapRef} style={{ height: '100%', width: '100%' }}></div>;
 };
 
-export default Map3D;
+export default Map3DAdvanced;
