@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const Map3D = ({ apiKey }) => {
+const Map3D = () => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [error, setError] = useState(null);
@@ -59,7 +59,7 @@ const Map3D = ({ apiKey }) => {
       }
       delete window.initMap;
     };
-  }, [apiKey]);
+  });
 
   if (error) {
     return <div>Error loading map: {error}</div>;
