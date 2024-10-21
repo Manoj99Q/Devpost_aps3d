@@ -2,6 +2,7 @@ import React from 'react';
 import Map3D from '../components/Map3D';
 import Model3D from '../components/Model3D';
 import LeftSection from '../components/LeftSection';
+import Marker3D from '../components/Marker3D';
 
 const Play = () => {
     return (
@@ -39,6 +40,13 @@ const Play = () => {
                         orientation: {tilt: 270},
                         scale: 1,
                       }}/>
+                    <Marker3D 
+                      marker={{
+                        position: { lat: 41.835818, lng: -87.620, altitude: 10 },
+                        label: "Marker 1",
+                        zIndex: 1,
+                      }}
+                    />
                 </Map3D>
 
           {/* <Model3D /> */}
