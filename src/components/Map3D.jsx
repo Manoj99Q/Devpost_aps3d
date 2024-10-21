@@ -11,7 +11,6 @@ const Map3D = () => {
         console.error('Google Maps API is not loaded');
         return;
       }
-      const googleMaps = window.google.maps;
       try {
         const { Map3DElement } = await googleMaps.importLibrary("maps3d");
 
@@ -38,7 +37,6 @@ const Map3D = () => {
       if (mapInstance && mapRef.current.contains(mapInstance)) {
         mapRef.current.removeChild(mapInstance);
       }
-      delete window.initMap;
     };
   }, [mapInstance]);
 
