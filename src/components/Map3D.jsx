@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState, createContext } from 'react';
 
 export const Map3DContext = createContext();
 
-const Map3D = ({ children }) => {
+const Map3D = ({ children, mapOptions }) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [error, setError] = useState(null);
@@ -16,12 +16,14 @@ const Map3D = ({ children }) => {
       try {
         const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
 
-        const map = new Map3DElement({
+        const defaultOptions = {
           center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
           heading: -90,
           tilt: 90,
           defaultLabelsDisabled: true,
-        });
+        };
+
+        const map = new Map3DElement({ ...defaultOptions, ...mapOptions });
 
         mapRef.current.appendChild(map);
         setMapInstance(map);
