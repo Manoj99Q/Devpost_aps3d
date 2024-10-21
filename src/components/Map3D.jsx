@@ -12,7 +12,7 @@ const Map3D = () => {
         return;
       }
       try {
-        const { Map3DElement } = await googleMaps.importLibrary("maps3d");
+        const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
 
         const map = new Map3DElement({
           center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
