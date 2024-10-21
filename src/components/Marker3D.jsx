@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import { Map3DContext } from './Map3D';
 
-const Marker3D = ({ marker }) => {
+const Marker3D = ({ marker, onClick }) => {
   const { mapInstance } = useContext(Map3DContext);
   const markerRef = useRef(null);
   const [error, setError] = useState(null);
@@ -18,12 +18,10 @@ const Marker3D = ({ marker }) => {
       }
 
       try {
-        const { Marker3DElement } = await google.maps.importLibrary("maps3d");
+        const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary("maps3d");
 
         const markerOptions = {
           position: marker.position,
-          // altitudeMode: marker.altitudeMode ?? (google.maps.AltitudeMode ? google.maps.AltitudeMode.ABSOLUTE : "absolute"),
-          // collisionBehavior: marker.collisionBehavior ?? "REQUIRED",
           drawsWhenOccluded: marker.drawsWhenOccluded || false,
           extruded: marker.extruded || false,
           label: marker.label || "",
@@ -34,7 +32,15 @@ const Marker3D = ({ marker }) => {
         // Remove undefined properties
         Object.keys(markerOptions).forEach(key => markerOptions[key] === undefined && delete markerOptions[key]);
 
-        const markerElement = new Marker3DElement(markerOptions);
+        let markerElement;
+
+        if (onClick) {
+          markerElement = new Marker3DInteractiveElement(markerOptions);
+          markerElement.addEventListener('gmp-click', onClick);
+        } else {
+          markerElement = new Marker3DElement(markerOptions);
+        }
+
 
         mapInstance.appendChild(markerElement);
 

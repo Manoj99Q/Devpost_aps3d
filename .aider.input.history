@@ -207,3 +207,45 @@
 +    at ZP.set [as collisionBehavior] (main.js:223:184)
 +    at new ZP (maps3d.js:80:1002)
 +    at initMarker (Marker3D.jsx:37:31)
+
+# 2024-10-20 23:26:43.688203
++dont make any changes; only give me resposne; how would I go with implenenatating an overlay feature that popus up on the map when clicked on a marker
+
+# 2024-10-20 23:43:44.812823
++in `Navbar` the a tags are coming as vertical
+
+# 2024-10-20 23:44:30.317881
++make the image bigger in LeftSection 
+
+# 2024-10-21 00:00:42.455596
++make customhook that helps to add and remove markersa from a list; use the same hook to loop through and put inside the Map inside `Play`
+
+# 2024-10-21 00:01:19.116084
++y
+
+# 2024-10-21 00:02:07.976509
++dont remve the marker using position but use id; and make id the key for all markers
+
+# 2024-10-21 00:02:57.361095
++move the useeffetc ocde into the hook; and use them as initial state
+
+# 2024-10-21 00:04:43.262532
++in `useMarkers` dont use useeffect' instead put the markers as initial state
+
+# 2024-10-21 00:04:55.989995
++y
+
+# 2024-10-21 00:19:27.009342
++update the `useMarkers` such thate the existing fields will be under a new object called markerOptions and add a new field function called OnClick
+
+# 2024-10-21 00:20:00.176898
++also update the Play
+
+# 2024-10-21 00:24:56.808341
++change color in `Navbar` to a shade of Black'
+
+# 2024-10-21 00:25:10.397860
++change color in `Navbar` to a shade of white
+
+# 2024-10-21 00:25:19.838359
++/undo
