@@ -1,21 +1,8 @@
 import { useState, useEffect } from 'react';
 
 const useMarkers = () => {
-  const [markers, setMarkers] = useState([]);
-
-  const addMarker = (marker) => {
-    setMarkers((prevMarkers) => [...prevMarkers, marker]);
-  };
-
-  const removeMarker = (markerId) => {
-    setMarkers((prevMarkers) =>
-      prevMarkers.filter((marker) => marker.id !== markerId)
-    );
-  };
-
-  useEffect(() => {
-    // Example markers
-    addMarker({
+  const [markers, setMarkers] = useState([
+    {
       id: 'marker1',
       position: { lat: 41.835818, lng: -87.620, altitude: 10 },
       label: "Marker 1",
