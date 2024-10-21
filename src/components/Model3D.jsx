@@ -9,7 +9,7 @@ const Model3D = () => {
   useEffect(() => {
     const initModel = async () => {
       if (!mapInstance) {
-        console.error('Map3D instance is not available');
+        console.error('Map3D instance not found');
         return;
       }
 
@@ -32,7 +32,13 @@ const Model3D = () => {
 
     initModel();
 
-  }, []);
+    return () => {
+      if (modelRef.current && mapInstance) {
+        mapInstance.removeChild(modelRef.current);
+      }
+    };
+
+  }, [mapInstance]);
 
   return null;
 };
