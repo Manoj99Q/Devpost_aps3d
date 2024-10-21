@@ -10,44 +10,54 @@ const Play = () => {
             <LeftSection />
 
 
-                <Map3D mapOptions = {{
-                    center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
-                    heading: -54.55771774522234,
-                    tilt: 64.07219291562834,
-                    defaultLabelsDisabled: true,
-                    range : 6292.401527459733
-                }}>
-                    <Model3D 
-                     model={{
-                        src: 'public/3dmodels/bumblebee.glb',
-                        position: { lat: 41.835818, lng: -87.615100, altitude: 10 },
-                        orientation: {tilt: 270},
-                        scale: 1,
-                      }}/>
+            <Map3D mapOptions = {{
+                center: { lat: 41.835818, lng: -87.615100, altitude: 1800 },
+                heading: -54.55771774522234,
+                tilt: 64.07219291562834,
+                defaultLabelsDisabled: true,
+                range : 6292.401527459733
+            }}>
+                <Model3D 
+                    model={{
+                    src: 'public/3dmodels/bumblebee.glb',
+                    position: { lat: 41.835818, lng: -87.615100, altitude: 10 },
+                    orientation: {tilt: 270},
+                    scale: 1,
+                    }}/>
 
-                    <Model3D 
-                     model={{
-                        src: 'public/3dmodels/hulkbuster.glb',
-                        position: { lat: 41.835818, lng: -87.625, altitude: 10 },
-                        orientation: {tilt: 270},
-                        scale: 10000,
-                      }}/>
+                <Model3D 
+                    model={{
+                    src: 'public/3dmodels/hulkbuster.glb',
+                    position: { lat: 41.835818, lng: -87.625, altitude: 10 },
+                    orientation: {tilt: 270},
+                    scale: 10000,
+                    }}/>
+                <Model3D 
+                    model={{
+                    src: 'public/3dmodels/phoenix_bird.glb',
+                    position: { lat: 41.88429, lng: -87.622973, altitude: 10 },
+                    orientation: {tilt: 270},
+                    scale: 1,
+                    }}/>
+                    
+                    
 
-                    <Model3D 
-                     model={{
-                        src: 'public/3dmodels/car.glb',
-                        position: { lat: 41.835818, lng: -87.605, altitude: 10 },
-                        orientation: {tilt: 270},
-                        scale: 1,
-                      }}/>
-                    <Marker3D 
-                      marker={{
-                        position: { lat: 41.835818, lng: -87.620, altitude: 10 },
-                        label: "Marker 1",
-                        zIndex: 1,
-                      }}
-                    />
-                </Map3D>
+                <Marker3D 
+                    marker={{
+                    position: { lat: 41.835818, lng: -87.620, altitude: 10 },
+                    label: "Marker 1",
+                    zIndex: 1,
+                    }}
+                />
+                   <Marker3D 
+                    marker={{
+                    position: { lat: 41.835818, lng: -87.610, altitude: 10 },
+                    label: "Custom Marker",
+                    zIndex: 1,
+                    }}
+                  
+                />
+            </Map3D>
 
           {/* <Model3D /> */}
         </div>

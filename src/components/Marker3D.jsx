@@ -23,7 +23,7 @@ const Marker3D = ({ marker }) => {
         const markerOptions = {
           position: marker.position,
           // altitudeMode: marker.altitudeMode ?? (google.maps.AltitudeMode ? google.maps.AltitudeMode.ABSOLUTE : "absolute"),
-          collisionBehavior: marker.collisionBehavior ?? "REQUIRED",
+          // collisionBehavior: marker.collisionBehavior ?? "REQUIRED",
           drawsWhenOccluded: marker.drawsWhenOccluded || false,
           extruded: marker.extruded || false,
           label: marker.label || "",
@@ -37,6 +37,7 @@ const Marker3D = ({ marker }) => {
         const markerElement = new Marker3DElement(markerOptions);
 
         mapInstance.appendChild(markerElement);
+
         markerRef.current = markerElement;
       } catch (err) {
         console.error('Error loading 3D marker:', err);

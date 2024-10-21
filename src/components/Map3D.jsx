@@ -17,10 +17,10 @@ const Map3D = ({ children, mapOptions }) => {
         const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
 
         const defaultOptions = {
-          center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
+          center: { lat: 0, lng: 0.98, altitude: 1800 },
           heading: -90,
           tilt: 90,
-          defaultLabelsDisabled: true,
+          defaultLabelsDisabled: false,
         };
 
         const map = new Map3DElement({ ...defaultOptions, ...mapOptions });

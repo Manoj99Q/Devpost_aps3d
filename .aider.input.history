@@ -37,3 +37,173 @@
 
 # 2024-10-20 19:39:44.080015
 +/undo
+
+# 2024-10-20 20:23:53.806437
++make the `Map3D` use a prop obejct similar to `Model3D` 
+
+# 2024-10-20 20:37:43.467407
++create a default landing page with a Play button that rputes to Play.jsx; use react router and tailwind for styling
+
+# 2024-10-20 20:37:46.550123
++Y
+
+# 2024-10-20 20:39:55.470174
++N
+
+# 2024-10-20 20:40:23.463255
++/undo
+
+# 2024-10-20 20:40:39.870328
++create a default landing page with a Play button that rputes to Play.jsx; use react router and tailwind for styling; add the routes in app.jsx
+
+# 2024-10-20 20:40:53.703270
++Y
+
+# 2024-10-20 20:41:12.396407
++N
+
+# 2024-10-20 20:41:20.972299
++Y
+
+# 2024-10-20 20:42:13.728692
++insta;; react router dom
+
+# 2024-10-20 20:42:17.394725
++y
+
+# 2024-10-20 20:42:17.408895
++/run npm install react-router-dom
+
+# 2024-10-20 20:43:38.755672
++add the routes now
+
+# 2024-10-20 20:44:19.519811
++/undo
+
+# 2024-10-20 21:31:10.585008
++N
+
+# 2024-10-20 21:33:29.092057
++create a landing page with  a Play button; use tailwind css for styling; Use react router dom tocreate routes in App.jsx the play button navigates to Play.jsx 
+
+# 2024-10-20 21:33:31.350197
++y
+
+# 2024-10-20 21:33:54.628007
++/run npm install react-router-dom
+
+# 2024-10-20 21:34:16.266751
++import `Navbar` in `App` 
+
+# 2024-10-20 21:35:32.098810
++the landingpafge is only taking 1/3 of width
+
+# 2024-10-20 21:43:10.556974
++For the left section in the `Play` create a sepearte jsx compoenent name it aptly
+
+# 2024-10-20 21:43:20.436204
++y
+
+# 2024-10-20 21:44:51.158574
++for the left section; have an image be displayed; and below the image should be sometjing to display stuff like senetcnes or any other for now go with text; use styling libraries whatever is needed
+
+# 2024-10-20 21:46:03.896138
++for the image src use the architect image inside public/images/architect.ong
+
+# 2024-10-20 21:46:43.053182
++give rounded corners and some shadow or other efefcts for the images; be cfreative
+
+# 2024-10-20 21:46:54.211201
++more rounded
+
+# 2024-10-20 21:47:11.400612
++stronger shadows and othe effetcs
+
+# 2024-10-20 21:47:50.317299
++for the textbox too; add some contaier with some speech shape
+
+# 2024-10-20 21:48:06.868714
++point it at the top
+
+# 2024-10-20 21:48:23.383243
++/undo
+
+# 2024-10-20 21:48:48.153971
++the triangle of speeech bubble should come from top
+
+# 2024-10-20 21:51:05.495077
++change the navbar color to be of the same theme
+
+# 2024-10-20 21:51:20.593117
++y
+
+# 2024-10-20 21:51:28.731055
++another color
+
+# 2024-10-20 21:51:42.694331
++use some advanced styling and color for the Navbar
+
+# 2024-10-20 21:51:59.879475
++/undo
+
+# 2024-10-20 21:53:35.172661
++similar to Map3D.jsx Model3D.jsx create a Marker3D componenet using this info :Shows a position on a 3D map. Note that the position must be set for the Marker3DElement to display.
++
++Custom element:
++<gmp-marker-3d altitude-mode="absolute" collision-behavior="required" draws-when-occluded extruded label="string" size-preserved z-index="number"></gmp-marker-3d>
++
++This class extends HTMLElement.
++
++This class implements Marker3DElementOptions.
++
++Access by calling const {Marker3DElement} = await google.maps.importLibrary("maps3d"). See Libraries in the Maps JavaScript API.
++
++Constructor
++Marker3DElement	
++Marker3DElement([options])
++Parameters: 
++options:  Marker3DElementOptions optional
++Creates an Marker3DElement with the options specified.
+
+# 2024-10-20 21:53:38.831636
++Y
+
+# 2024-10-20 21:54:50.127242
++add the `Marker3D` in the Play component
+
+# 2024-10-20 21:55:40.864408
++Marker3D.jsx:42 Error loading 3D marker: 
++InvalidValueError
++    at _.Pj (main.js:191:374)
++    at _.ck (main.js:195:143)
++    at ZP.vh (maps3d.js:85:200)
++    at set altitudeMode (maps3d.js:81:269)
++    at ZP.set [as altitudeMode] (main.js:223:184)
++    at new ZP (maps3d.js:80:964)
++    at initMarker (Marker3D.jsx:37:31)
++initMarker	@	
+
+# 2024-10-20 21:56:08.446406
++Marker3D.jsx:42 Error loading 3D marker: InvalidValueError
++    at _.Pj (main.js:191:374)
++    at _.ck (main.js:195:143)
++    at ZP.vh (maps3d.js:85:200)
++    at set altitudeMode (maps3d.js:81:269)
++    at ZP.set [as altitudeMode] (main.js:223:184)
++    at new ZP (maps3d.js:80:964)
++    at initMarker (Marker3D.jsx:37:31)
+
+# 2024-10-20 21:56:52.109904
++Marker3D.jsx:42 Error loading 3D marker: 
++TypeError: Cannot read properties of undefined (reading 'ABSOLUTE')
++    at initMarker (Marker3D.jsx:25:73)
+
+# 2024-10-20 21:57:35.448245
++Marker3D.jsx:42 Error loading 3D marker: InvalidValueError
++    at _.Pj (main.js:191:374)
++    at _.ck (main.js:195:143)
++    at ZP.vh (maps3d.js:85:200)
++    at set collisionBehavior (maps3d.js:81:447)
++    at ZP.set [as collisionBehavior] (main.js:223:184)
++    at new ZP (maps3d.js:80:1002)
++    at initMarker (Marker3D.jsx:37:31)
