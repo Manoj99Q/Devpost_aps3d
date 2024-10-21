@@ -3,7 +3,7 @@ import { Home, User, Mail } from 'lucide-react';
 
 const Navbar = () => {
   return (
-    <nav className="bg-purple-800 p-4 shadow-lg border-b-4 border-yellow-400">
+    <nav className="bg-gray-900 p-4 shadow-lg border-b-4 border-yellow-400">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-yellow-400 text-2xl font-bold font-medieval transform hover:scale-105 transition-transform duration-300">
           MapQuest
