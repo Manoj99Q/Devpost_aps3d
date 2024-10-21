@@ -8,7 +8,7 @@ const Navbar = () => {
         <div className="text-yellow-400 text-2xl font-bold font-medieval transform hover:scale-105 transition-transform duration-300">
           MapQuest
         </div>
-        <div className="space-x-6">
+        <div className="space-x-6 flex">
           <a href="#" className="text-yellow-200 hover:text-white transition-colors duration-300 flex items-center">
             <Home size={20} className="mr-1" />
             <span className="hidden sm:inline">Home</span>
