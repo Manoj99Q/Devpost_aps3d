@@ -28,3 +28,12 @@
 
 # 2024-10-20 19:33:12.790162
 +y
+
+# 2024-10-20 19:36:58.599543
++create a context inside `Map3D` and pass it to its children
+
+# 2024-10-20 19:39:05.982857
++make the `Model3D` wrapped by `Map3D` and make the `Model3D` use the map context provided by the `Map3D` 
+
+# 2024-10-20 19:39:44.080015
++/undo
