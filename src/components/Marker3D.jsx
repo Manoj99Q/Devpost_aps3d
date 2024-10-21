@@ -22,7 +22,7 @@ const Marker3D = ({ marker }) => {
 
         const markerOptions = {
           position: marker.position,
-          altitudeMode: marker.altitudeMode ?? "absolute",
+          altitudeMode: marker.altitudeMode ?? google.maps.AltitudeMode.ABSOLUTE,
           collisionBehavior: marker.collisionBehavior || "required",
           drawsWhenOccluded: marker.drawsWhenOccluded || false,
           extruded: marker.extruded || false,
