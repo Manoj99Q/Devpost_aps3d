@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, createContext } from 'react';
 
-const Map3D = () => {
+export const Map3DContext = createContext();
+
+const Map3D = ({ children }) => {
   const mapRef = useRef(null);
   const [mapInstance, setMapInstance] = useState(null);
   const [error, setError] = useState(null);
@@ -44,7 +46,13 @@ const Map3D = () => {
     return <div>Error loading map: {error}</div>;
   }
 
-  return <div ref={mapRef} style={{ height: '100%', width: '100%', overflow: 'hidden' }}></div>;
+  return (
+    <Map3DContext.Provider value={{ mapInstance }}>
+      <div ref={mapRef} style={{ height: '100%', width: '100%', overflow: 'hidden' }}>
+        {children}
+      </div>
+    </Map3DContext.Provider>
+  );
 };
 
 export default Map3D;
