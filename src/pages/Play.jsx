@@ -13,7 +13,29 @@ const Play = () => {
 
 
                 <Map3D >
-                    <Model3D />
+                    <Model3D 
+                     model={{
+                        src: 'public/3dmodels/bumblebee.glb',
+                        position: { lat: 41.835818, lng: -87.615100, altitude: 10 },
+                        orientation: {tilt: 270},
+                        scale: 1,
+                      }}/>
+
+                    <Model3D 
+                     model={{
+                        src: 'public/3dmodels/hulkbuster.glb',
+                        position: { lat: 41.835818, lng: -87.625, altitude: 10 },
+                        orientation: {tilt: 270},
+                        scale: 10000,
+                      }}/>
+
+                    <Model3D 
+                     model={{
+                        src: 'public/3dmodels/car.glb',
+                        position: { lat: 41.835818, lng: -87.605, altitude: 10 },
+                        orientation: {tilt: 270},
+                        scale: 1,
+                      }}/>
                 </Map3D>
 
           {/* <Model3D /> */}
