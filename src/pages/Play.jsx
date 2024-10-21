@@ -14,7 +14,7 @@ const Play = () => {
 
                 <Map3D />
 
-          {/* <Model3D /> */}
+          <Model3D />
         </div>
     );
 };
