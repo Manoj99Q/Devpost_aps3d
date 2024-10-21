@@ -31,7 +31,7 @@ const LeftSection = () => {
     return (
         <div className="w-1/4 bg-gray-800 p-4 flex flex-col items-center">
             <motion.div 
-                className="relative w-48 h-48 mb-4"
+                className="relative w-64 h-64 mb-4"
                 animate={{ y: [0, -10, 0] }}
                 transition={{ repeat: Infinity, duration: 2 }}
             >
