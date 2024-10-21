@@ -47,8 +47,8 @@ const Play = () => {
                     
                     
 
-                {markers.map((marker) => (
-                    <Marker3D key={marker.id} marker={marker} onClick={()=>{console.log(marker.label)}} />
+                {markers.map(({ id, markerOptions, onClick }) => (
+                    <Marker3D key={id} marker={markerOptions} onClick={onClick} />
                 ))}
             </Map3D>
 
