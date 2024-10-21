@@ -1,26 +1,16 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useContext } from 'react';
+import { Map3DContext } from './Map3D';
 
 const Model3D = () => {
-  const mapRef = useRef(null);
-  const mapInstanceRef = useRef(null);
+  const { mapInstance } = useContext(Map3DContext);
 
   useEffect(() => {
     const initMap = async () => {
-      if (!mapRef.current || mapInstanceRef.current) return;
+      if (!mapInstance) return;
 
       const { Map3DElement, Model3DElement } = await google.maps.importLibrary("maps3d");
 
-      const map = new Map3DElement({
-        center: {lat: 41.8311523125632, lng: -87.63329827317273, altitude: 1000},
-        heading: -90,
-        tilt: 90,
-        defaultLabelsDisabled: true,
-      });
-
-      mapRef.current.innerHTML = '';
-      mapRef.current.appendChild(map);
-      mapInstanceRef.current = map;
 
       const models = [
         {
@@ -60,15 +50,9 @@ const Model3D = () => {
 
     loadMap();
 
-    return () => {
-      if (mapRef.current) {
-        mapRef.current.innerHTML = '';
-      }
-      mapInstanceRef.current = null;
-    };
   }, []);
 
-  return <div ref={mapRef} style={{ height: '100vh', width: '100%' }}></div>;
+  return null;
 };
 
 export default Model3D;
