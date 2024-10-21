@@ -12,7 +12,13 @@ const Play = () => {
             </div>
 
 
-                <Map3D >
+                <Map3D mapOptions = {{
+                    center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
+                    heading: -54.55771774522234,
+                    tilt: 64.07219291562834,
+                    defaultLabelsDisabled: true,
+                    range : 6292.401527459733
+                }}>
                     <Model3D 
                      model={{
                         src: 'public/3dmodels/bumblebee.glb',
