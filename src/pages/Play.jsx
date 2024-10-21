@@ -12,12 +12,14 @@ const Play = () => {
     useEffect(() => {
         // Example markers
         addMarker({
+            id: 'marker1',
             position: { lat: 41.835818, lng: -87.620, altitude: 10 },
             label: "Marker 1",
             zIndex: 1,
         });
 
         addMarker({
+            id: 'marker2',
             position: { lat: 41.835818, lng: -87.610, altitude: 10 },
             label: "Custom Marker",
             zIndex: 1,
@@ -25,8 +27,8 @@ const Play = () => {
 
         // Cleanup function to remove markers if needed
         return () => {
-            removeMarker({ lat: 41.835818, lng: -87.620 });
-            removeMarker({ lat: 41.835818, lng: -87.610 });
+            removeMarker('marker1');
+            removeMarker('marker2');
         };
     }, [addMarker, removeMarker]);
     return (
@@ -66,8 +68,8 @@ const Play = () => {
                     
                     
 
-                {markers.map((marker, index) => (
-                    <Marker3D key={index} marker={marker} />
+                {markers.map((marker) => (
+                    <Marker3D key={marker.id} marker={marker} />
                 ))}
             </Map3D>
 

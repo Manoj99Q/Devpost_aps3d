@@ -7,13 +7,9 @@ const useMarkers = () => {
     setMarkers((prevMarkers) => [...prevMarkers, marker]);
   };
 
-  const removeMarker = (markerPosition) => {
+  const removeMarker = (markerId) => {
     setMarkers((prevMarkers) =>
-      prevMarkers.filter(
-        (marker) =>
-          marker.position.lat !== markerPosition.lat ||
-          marker.position.lng !== markerPosition.lng
-      )
+      prevMarkers.filter((marker) => marker.id !== markerId)
     );
   };
 
