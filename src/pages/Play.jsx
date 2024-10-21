@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Map3D from '../components/Map3D';
 import Model3D from '../components/Model3D';
 import LeftSection from '../components/LeftSection';
@@ -9,28 +9,6 @@ import useMarkers from '../hooks/useMarkers';
 const Play = () => {
     const { markers, addMarker, removeMarker } = useMarkers();
 
-    useEffect(() => {
-        // Example markers
-        addMarker({
-            id: 'marker1',
-            position: { lat: 41.835818, lng: -87.620, altitude: 10 },
-            label: "Marker 1",
-            zIndex: 1,
-        });
-
-        addMarker({
-            id: 'marker2',
-            position: { lat: 41.835818, lng: -87.610, altitude: 10 },
-            label: "Custom Marker",
-            zIndex: 1,
-        });
-
-        // Cleanup function to remove markers if needed
-        return () => {
-            removeMarker('marker1');
-            removeMarker('marker2');
-        };
-    }, [addMarker, removeMarker]);
     return (
         <div className="flex flex-row h-full w-full flex-grow overflow-hidden">
             <LeftSection />
