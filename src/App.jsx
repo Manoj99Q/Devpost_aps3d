@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Navbar from './components/Navbar'
+import LandingPage from './pages/LandingPage'
 import Play from './pages/Play'
 
 
@@ -31,13 +32,17 @@ function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden">
-      <Navbar />
-      <div className="flex-grow flex overflow-hidden">
-        <Play />
+    <Router>
+      <div className="flex flex-col h-screen overflow-hidden">
+        <Navbar />
+        <div className="flex-grow flex overflow-hidden">
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/play" element={<Play />} />
+          </Routes>
+        </div>
       </div>
-      {/* <Map3DModelTest /> */}
-    </div>
+    </Router>
   )
 }
 
