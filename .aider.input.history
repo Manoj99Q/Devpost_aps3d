@@ -249,3 +249,51 @@
 
 # 2024-10-21 00:25:19.838359
 +/undo
+
+# 2024-10-21 22:40:01.957996
++will the state managment for the useMarkers.js hook work;like is it correcttly defined and will update correctly if I use the methpods
+
+# 2024-10-21 22:40:04.527336
++Y
+
+# 2024-10-21 23:17:19.479624
++in my project where would I place a file which only conatines the json objects of markers information and nothing else
+
+# 2024-10-21 23:17:37.911030
++y
+
+# 2024-10-21 23:17:43.584761
++/run mkdir -p src/data
+
+# 2024-10-21 23:18:38.424934
++what if in the json i also need to have function that are again imported from other files; which file format to use json or js?
+
+# 2024-10-21 23:19:04.140109
++then update the markers.json to js
+
+# 2024-10-21 23:19:19.566388
++y
+
+# 2024-10-21 23:19:19.577841
++/run mv src/data/markers.json src/data/markers.js
+
+# 2024-10-21 23:20:18.719751
++in the markers.js, make the field names not in ""
+
+# 2024-10-21 23:20:32.062518
++y
+
+# 2024-10-21 23:25:18.678955
++in `useState` also export `addMarker` and `removeMarker` 
+
+# 2024-10-21 23:27:59.974503
++/undo
+
+# 2024-10-21 23:37:01.022190
++in `useMarkers` , for the deafualt1 item, i need to add a field called onClick
+
+# 2024-10-21 23:37:25.950857
++/undo
+
+# 2024-10-21 23:37:39.818711
++in `useMarkers` , for the deafualt1 item, i need to add a field called onClick; Not inside `markers`.js

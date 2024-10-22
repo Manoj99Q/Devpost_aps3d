@@ -5,7 +5,7 @@ const useMarkers = () => {
   const [markers, setMarkers] = useState([
     {
       ...markersDict.default1, 
-      onClick: () => { console.log('This is default marker 1') }
+      onClick: () => { addMarker(markersDict.newMarker); },
     },
     markersDict.default2,
   ]);

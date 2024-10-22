@@ -17,7 +17,17 @@ const markersDict = {
       zIndex: 1,
     },
     onClick: null
-  }
+  },
+
+  newMarker: {
+    id: 'marker3',
+    markerOptions: {
+      position: { lat: 41.835818, lng: -87.630, altitude: 10 },
+      label: "New Marker",
+      zIndex: 1,
+    },
+    onClick: null,
+  },
 };
 
 

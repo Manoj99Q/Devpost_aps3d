@@ -5,7 +5,7 @@ import LeftSection from '../components/LeftSection';
 import Marker3D from '../components/Marker3D';
 
 import useMarkers from '../hooks/useMarkers';
-import { marker } from 'framer-motion/client';
+
 
 const Play = () => {
     const { markers, addMarker, removeMarker } = useMarkers();
