@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import markersDict from '../data/markers';
 
 const useMarkers = () => {
@@ -21,5 +21,3 @@ const useMarkers = () => {
 };
 
 export default useMarkers;
-export addMarker;
-export removeMarker;
