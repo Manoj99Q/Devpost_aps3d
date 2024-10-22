@@ -297,3 +297,12 @@
 
 # 2024-10-21 23:37:39.818711
 +in `useMarkers` , for the deafualt1 item, i need to add a field called onClick; Not inside `markers`.js
+
+# 2024-10-22 00:09:03.176737
++correct the errors in `overlay`.js
+
+# 2024-10-22 00:09:20.653485
++y
+
+# 2024-10-22 00:10:11.775178
++/undo

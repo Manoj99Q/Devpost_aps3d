@@ -1,34 +1,38 @@
+import Overlays from './Overlays';
 
 const markersDict = {
-  default1:   {
-    id: 'marker1',
+  bean: {
+    id: 'bean-marker',
     markerOptions: {
-      position: { lat: 41.835818, lng: -87.620, altitude: 10 },
-      label: "Marker 1",
+      position: { lat: 41.8826, lng: -87.6233, altitude: 10 },
+      label: "Cloud Gate (The Bean)",
       zIndex: 1,
     },
-    onClick: null,
+    onClick: () => {},
+    overlay: ({ onClose }) => Overlays.bean({ onClose })
   },
 
-  default2:   { id: 'marker2',
+  willis: {
+    id: 'willis-marker',
     markerOptions: {
-      position: { lat: 41.835818, lng: -87.610, altitude: 10 },
-      label: "Custom Marker",
+      position: { lat: 41.8789, lng: -87.6359, altitude: 10 },
+      label: "Willis Tower",
       zIndex: 1,
     },
-    onClick: null
+    onClick: () => {},
+    overlay: ({ onClose }) => Overlays.willis({ onClose })
   },
 
-  newMarker: {
-    id: 'marker3',
+  navyPier: {
+    id: 'navy-pier-marker',
     markerOptions: {
-      position: { lat: 41.835818, lng: -87.630, altitude: 10 },
-      label: "New Marker",
+      position: { lat: 41.8917, lng: -87.6063, altitude: 10 },
+      label: "Navy Pier",
       zIndex: 1,
     },
-    onClick: null,
-  },
+    onClick: () => {},
+    overlay: ({ onClose }) => Overlays.navyPier({ onClose })
+  }
 };
-
 
 export default markersDict;

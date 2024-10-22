@@ -4,10 +4,10 @@ import markersDict from '../data/markers';
 const useMarkers = () => {
   const [markers, setMarkers] = useState([
     {
-      ...markersDict.default1, 
-      onClick: () => { addMarker(markersDict.newMarker); },
+      ...markersDict.bean, 
+      onClick: () => { addMarker(markersDict.navyPier); },
     },
-    markersDict.default2,
+    markersDict.willis,
   ]);
 
   const addMarker = (marker) => {
