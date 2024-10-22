@@ -3,7 +3,10 @@ import markersDict from '../data/markers';
 
 const useMarkers = () => {
   const [markers, setMarkers] = useState([
-    markersDict.default1,
+    {
+      ...markersDict.default1, 
+      onClick: () => { console.log('This is default marker 1') }
+    },
     markersDict.default2,
   ]);
 
