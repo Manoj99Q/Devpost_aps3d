@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="25" height="25">
+  <!-- White circular background -->
+  <circle cx="50" cy="50" r="48" fill="white" stroke="black" stroke-width="2"/>
+  
+  <!-- Bean shape - simplified representation -->
+  <path d="M25 60 
+           C25 40, 50 25, 75 60
+           C75 70, 50 80, 25 60
+           Z" 
+        fill="#D3D3D3"/>
+  
+  <!-- Reflection highlights -->
+  <path d="M35 55
+           C35 45, 50 35, 65 55"
+        fill="none"
+        stroke="white"
+        stroke-width="2"/>
+  
+  <!-- Ground reflection -->
+  <ellipse cx="50" cy="60" rx="25" ry="3" fill="#666"/>
+</svg>

@@ -10,7 +10,7 @@ const markersDict = {
       zIndex: 1
     },
     image: {
-      url: '/images/bean.png',
+      url: 'public/images/bean.svg',
       width: '48px',
       height: '48px'
     },
