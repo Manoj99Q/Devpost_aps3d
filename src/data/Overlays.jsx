@@ -1,5 +1,6 @@
 import React from 'react';
-import { Camera, Clock, MapPin, DollarSign } from 'lucide-react';
+import { Camera, Clock, MapPin, Film, Clapperboard, Star } from 'lucide-react';
+
 
 const BeanOverlay = ({ onClose }) => (
   <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg shadow-xl max-w-md">
@@ -99,10 +100,88 @@ const NavyPierOverlay = ({ onClose }) => (
   </div>
 );
 
+
+const TransformersOverlay = ({ onClose }) => (
+  <div className="bg-gradient-to-br from-slate-900 to-gray-800 p-6 rounded-lg shadow-xl max-w-md text-gray-100 border border-blue-500">
+    <div className="relative mb-6">
+      <div className="absolute -top-4 -left-2 bg-blue-500 px-3 py-1 rounded-md text-sm font-mono">
+        LOCATION FILE: CLASSIFIED
+      </div>
+      <h2 className="text-3xl font-bold text-blue-400 mt-2 flex items-center gap-2">
+        <Film className="w-8 h-8" />
+        Dark of the Moon
+        <span className="text-sm font-normal bg-blue-500 px-2 py-1 rounded ml-2">2011</span>
+      </h2>
+    </div>
+
+    <div className="space-y-4">
+      <div className="bg-black/30 p-4 rounded-lg border-l-4 border-blue-500">
+        <h3 className="font-bold text-blue-400 flex items-center gap-2 mb-2">
+          <Clapperboard className="w-5 h-5" />
+          Production Details
+        </h3>
+        <p className="text-gray-300 leading-relaxed">
+          Michael Bay transformed Chicago into a battleground for the epic clash between Autobots and Decepticons, 
+          utilizing the city's iconic architecture as a backdrop for some of the most spectacular action sequences in the film.
+        </p>
+      </div>
+
+      <div className="bg-black/30 p-4 rounded-lg border-l-4 border-yellow-500">
+        <h3 className="font-bold text-yellow-400 flex items-center gap-2 mb-2">
+          <MapPin className="w-5 h-5" />
+          Key Filming Locations
+        </h3>
+        <ul className="space-y-2 text-gray-300">
+          <li className="flex items-start gap-2">
+            <Star className="w-4 h-4 mt-1 text-yellow-500" />
+            <span>Trump Tower - Base jump sequence</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Star className="w-4 h-4 mt-1 text-yellow-500" />
+            <span>Wacker Drive - Major battle scenes</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <Star className="w-4 h-4 mt-1 text-yellow-500" />
+            <span>Michigan Avenue Bridge - Epic robot showdown</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="bg-black/30 p-4 rounded-lg border-l-4 border-red-500">
+        <h3 className="font-bold text-red-400 flex items-center gap-2 mb-2">
+          <Camera className="w-5 h-5" />
+          Fun Facts
+        </h3>
+        <ul className="text-gray-300 list-disc list-inside space-y-1 ml-2">
+          <li>Largest production ever filmed in Chicago</li>
+          <li>Closed major streets for two weeks</li>
+          <li>Used over 500 local crew members</li>
+        </ul>
+      </div>
+    </div>
+
+    <div className="mt-6 flex gap-3">
+      <button 
+        onClick={onClose} 
+        className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg 
+                   transition-colors duration-200 font-medium"
+      >
+        Close File
+      </button>
+    </div>
+
+    <div className="mt-4 text-center text-sm text-gray-400 font-mono">
+      ACCESS LEVEL: AUTOBOT CLEARANCE
+    </div>
+  </div>
+);
+
+
 const Overlays = {
   bean: BeanOverlay,
   willis: WillisOverlay,
-  navyPier: NavyPierOverlay
+  navyPier: NavyPierOverlay,
+  bumblebee: TransformersOverlay
 };
 
 export default Overlays;

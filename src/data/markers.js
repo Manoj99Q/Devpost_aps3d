@@ -10,7 +10,7 @@ const markersDict = {
       zIndex: 1,
     },
     onClick: () => {},
-    overlay: Overlays.bean  // Direct component reference
+    overlay: null // Direct component reference
   },
 
   willis: {
