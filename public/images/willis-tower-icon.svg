@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="25" height="25">
+  <!-- White circular background -->
+  <circle cx="50" cy="50" r="48" fill="white" stroke="black" stroke-width="2"/>
+  
+  <!-- Willis Tower silhouette - centered and scaled to fit circle -->
+  <path d="M30 80 L30 40 L42 40 L42 25 L48 25 L48 20 L52 20 L52 25 L58 25 L58 40 L70 40 L70 80 Z" fill="black"/>
+</svg>

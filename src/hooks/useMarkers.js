@@ -5,6 +5,7 @@ const useMarkers = () => {
   const [markers, setMarkers] = useState([
     markersDict.bean, 
     markersDict.willis,
+    markersDict.navyPier
   ]);
 
   const addMarker = (marker) => {

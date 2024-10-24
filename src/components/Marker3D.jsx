@@ -1,18 +1,19 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import { Map3DContext } from './Map3D';
 
-const Marker3D = ({ marker, onClick }) => {
+const Marker3D = ({ marker }) => {
   const { mapInstance } = useContext(Map3DContext);
   const markerRef = useRef(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    console.log('Marker3D useEffect', marker);
     const initMarker = async () => {
       if (!mapInstance) {
         return;
       }
 
-      if (!marker.position) {
+      if (!marker?.markerOptions?.position) {
         setError("The 'position' must be set for the Marker3DElement to display.");
         return;
       }
@@ -20,29 +21,42 @@ const Marker3D = ({ marker, onClick }) => {
       try {
         const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary("maps3d");
 
-        const markerOptions = {
-          position: marker.position,
-          drawsWhenOccluded: marker.drawsWhenOccluded || false,
-          extruded: marker.extruded || false,
-          label: marker.label || "",
-          sizePreserved: marker.sizePreserved || false,
-          zIndex: marker.zIndex || 0,
+        const markerProps = {
+          position: marker.markerOptions.position,
+          drawsWhenOccluded: marker.markerOptions.drawsWhenOccluded || true,
+          extruded: marker.markerOptions.extruded || false,
+          label: marker.markerOptions.label || "",
+          sizePreserved: marker.markerOptions.sizePreserved || false,
+          zIndex: marker.markerOptions.zIndex || 0,
         };
 
         // Remove undefined properties
-        Object.keys(markerOptions).forEach(key => markerOptions[key] === undefined && delete markerOptions[key]);
-
+        Object.keys(markerProps).forEach(key => markerProps[key] === undefined && delete markerProps[key]);
         let markerElement;
 
-        if (onClick) {
-          markerElement = new Marker3DInteractiveElement(markerOptions);
-          markerElement.addEventListener('gmp-click', onClick);
+        if (marker.onClick) {
+          markerElement = new Marker3DInteractiveElement(markerProps);
+          markerElement.addEventListener('gmp-click', marker.onClick);
         } else {
-          markerElement = new Marker3DElement(markerOptions);
+          markerElement = new Marker3DElement(markerProps);
+        }
+        //appending to mapInstance
+        mapInstance.appendChild(markerElement);
+
+        // Add custom image if provided
+        if (marker.image) {
+          const img = document.createElement('img');
+          img.src = marker.image.url;
+          img.style.width = marker.image.width || '40px';
+          img.style.height = marker.image.height || '40px';
+
+          // Create a template element and append the image
+          const template = document.createElement('template');
+          template.content.append(img);
+          markerElement.append(template);
         }
 
 
-        mapInstance.appendChild(markerElement);
 
         markerRef.current = markerElement;
       } catch (err) {
@@ -54,14 +68,18 @@ const Marker3D = ({ marker, onClick }) => {
     initMarker();
 
     return () => {
-      if (markerRef.current && mapInstance) {
-        mapInstance.removeChild(markerRef.current);
+      if (markerRef.current) {
+        // Remove from overlay or mapInstance if markerRef exists
+        if (marker.overlay) {
+          marker.overlay.removeChild(markerRef.current);
+        } else if (mapInstance) {
+          mapInstance.removeChild(markerRef.current);
+        }
       }
     };
-
   }, [mapInstance, marker]);
 
-  return null;
+  return error ? <div className="error">{error}</div> : null;
 };
 
 export default Marker3D;
