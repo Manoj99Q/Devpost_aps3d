@@ -3,10 +3,7 @@ import markersDict from '../data/markers';
 
 const useMarkers = () => {
   const [markers, setMarkers] = useState([
-    {
-      ...markersDict.bean, 
-      onClick: () => { addMarker(markersDict.navyPier); },
-    },
+    markersDict.bean, 
     markersDict.willis,
   ]);
 
