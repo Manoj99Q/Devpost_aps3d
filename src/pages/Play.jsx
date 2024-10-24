@@ -10,12 +10,7 @@ const Play = () => {
     const { markers, addMarker, removeMarker } = useMarkers();
     const [activeOverlay, setActiveOverlay] = useState(null);
 
-    useEffect(() => {
-        // Initialize markers from markersDict
-        Object.values(markersDict).forEach(marker => {
-            addMarker(marker);
-        });
-    }, []);
+
 
     const handleMarkerClick = (marker) => {
         if (marker.onClick) marker.onClick();
@@ -65,16 +60,19 @@ const Play = () => {
                 />
 
                 {markers.map((marker) => (
+                    <>
+                    {console.log(marker)}
                     <Marker3D 
                         key={marker.id} 
                         marker={marker.markerOptions} 
                         onClick={() => handleMarkerClick(marker)} 
                     />
+                    </>
                 ))}
             </Map3D>
 
             {activeOverlay && (
-                <div className="absolute top-10 right-10 z-10">
+                <div className="absolute top-100 right-10 z-10">
                     {activeOverlay()}
                 </div>
             )}
