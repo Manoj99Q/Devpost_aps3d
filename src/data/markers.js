@@ -1,3 +1,4 @@
+// markersDict.js
 import Overlays from './Overlays';
 
 const markersDict = {
@@ -9,7 +10,7 @@ const markersDict = {
       zIndex: 1,
     },
     onClick: () => {},
-    overlay: ({ onClose }) => Overlays.bean({ onClose })
+    overlay: Overlays.bean  // Direct component reference
   },
 
   willis: {
@@ -20,7 +21,7 @@ const markersDict = {
       zIndex: 1,
     },
     onClick: () => {},
-    overlay: ({ onClose }) => Overlays.willis({ onClose })
+    overlay: Overlays.willis  // Direct component reference
   },
 
   navyPier: {
@@ -31,7 +32,7 @@ const markersDict = {
       zIndex: 1,
     },
     onClick: () => {},
-    overlay: ({ onClose }) => Overlays.navyPier({ onClose })
+    overlay: Overlays.navyPier  // Direct component reference
   }
 };
 

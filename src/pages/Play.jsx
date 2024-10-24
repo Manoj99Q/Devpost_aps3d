@@ -10,14 +10,13 @@ const Play = () => {
     const { markers, addMarker, removeMarker } = useMarkers();
     const [activeOverlay, setActiveOverlay] = useState(null);
 
-
-
     const handleMarkerClick = (marker) => {
         if (marker.onClick) marker.onClick();
         if (marker.overlay) {
-            setActiveOverlay(() => () => marker.overlay({ 
-                onClose: () => setActiveOverlay(null)
-            }));
+            // Now directly using the component
+            setActiveOverlay({
+                component: marker.overlay,
+            });
         }
     };
 
@@ -60,20 +59,19 @@ const Play = () => {
                 />
 
                 {markers.map((marker) => (
-                    <>
-                    {console.log(marker)}
                     <Marker3D 
                         key={marker.id} 
                         marker={marker.markerOptions} 
                         onClick={() => handleMarkerClick(marker)} 
                     />
-                    </>
                 ))}
             </Map3D>
 
             {activeOverlay && (
-                <div className="absolute top-0 left-0  h-full flex items-center justify-end z-10">
-                    {activeOverlay()}
+                <div className="absolute inset-y-0 right-10 flex items-center z-10">
+                    <activeOverlay.component 
+                        onClose={() => setActiveOverlay(null)}
+                    />
                 </div>
             )}
         </div>
