@@ -1,6 +1,8 @@
 // markersDict.js
 import Overlays from './Overlays';
 
+
+
 const markersDict = {
   bean: {
     id: 'bean-marker',
@@ -35,8 +37,18 @@ const markersDict = {
     onClick: () => {},
     overlay: Overlays.navyPier  // Direct component reference
   },
-
-  lostandfound:{
+  oldmanlostandfound:{
+    id: 'oldmanlostandfound',
+    markerOptions: {
+      position: { lat: 41.909059, lng: -87.639081, altitude: 10 },
+      label: "OldMan",
+      zIndex: 1,
+    },
+    onClick: () => {},
+    overlay: null ,
+    quest:"lostAndFoundQuest"
+  },
+  lostandfoundmarkers:{
     bean: {
       id: 'bean-marker-lf',
       markerOptions: {
@@ -44,7 +56,7 @@ const markersDict = {
         label: "Cloud Gate (The Bean)",
         zIndex: 1,
       },
-      onClick: () => {},
+      onClick: ()=>{},
       overlay: null 
     },
   
@@ -92,6 +104,8 @@ const markersDict = {
       overlay: null
     }
   }
+
+
 
 };
 

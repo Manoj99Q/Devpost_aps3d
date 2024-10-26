@@ -1,4 +1,5 @@
-// questData.js
+
+
 const questData = {
   bean_energon: {
       character: {
@@ -57,76 +58,7 @@ const questData = {
         title: "The Hidden Energon"
       }
     },
-    willis: {
-      character: {
-        name: "Iron Man",
-        avatar: "https://picsum.photos/300",
-        mood: "concerned"
-      },
-      dialogues: {
-        initial: {
-          text: "FRIDAY detected unusual activity at the top of Willis Tower. I could use some backup checking it out.",
-          choices: [
-            {
-              text: "I'm in",
-              next: "quest_start"
-            },
-            {
-              text: "What kind of activity?",
-              next: "more_info"
-            }
-          ]
-        },
-        // Add more dialogue states...
-      },
-      quest: {
-        id: "willis_defense",
-        title: "Skyline Defense",
-        steps: [
-          {
-            id: "reach_top",
-            text: "Reach the tower's observation deck",
-            isComplete: false
-          },
-          // Add more steps...
-        ]
-      }
-    },
-    navyPier: {
-      character: {
-        name: "Phoenix",
-        avatar: "https://picsum.photos/300",
-        mood: "alert"
-      },
-      dialogues: {
-        initial: {
-          text: "I sense a disturbance in the energy patterns around Navy Pier. We should investigate before it grows stronger.",
-          choices: [
-            {
-              text: "Let's check it out",
-              next: "quest_start"
-            },
-            {
-              text: "What kind of disturbance?",
-              next: "more_info"
-            }
-          ]
-        },
-        // Add more dialogue states...
-      },
-      quest: {
-        id: "pier_energy",
-        title: "Pier Mysteries",
-        steps: [
-          {
-            id: "investigate_wheel",
-            text: "Investigate the Centennial Wheel",
-            isComplete: false
-          },
-          // Add more steps...
-        ]
-      }
-    },
+
 
     lostAndFoundQuest :{
       character: {
@@ -161,12 +93,12 @@ const questData = {
           ]
         },
         quest_start: {
-          text: "Great! Let's start with my pocket watch. I think I lost it near The Bean. Click on the marker when you're ready to investigate!",
+          text: "Great! All the items are marked on the map. Click on any marker when you're ready to investigate!",
           choices: [
             {
               text: "Got it!",
               next: null,
-              action: "startLostAndFoundQuest"
+              action: "startlostAndFoundQuest"
             }
           ]
         },
@@ -185,7 +117,6 @@ const questData = {
         title: "Mr. O'Hare's Lost Treasures"
       }
     }
-    
   };
   
   export default questData;

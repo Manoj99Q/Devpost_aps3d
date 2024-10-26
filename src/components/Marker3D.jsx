@@ -7,43 +7,42 @@ const Marker3D = ({ marker, onClick }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    let markerElement = null;
+    
     const initMarker = async () => {
-      if (!mapInstance) {
-        return;
-      }
-
+      if (!mapInstance) return;
       if (!marker.position) {
         setError("The 'position' must be set for the Marker3DElement to display.");
         return;
       }
 
       try {
+        // Clean up existing marker if it exists
+        if (markerRef.current && mapInstance) {
+          mapInstance.removeChild(markerRef.current);
+          markerRef.current = null;
+        }
+
         const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary("maps3d");
 
         const markerOptions = {
           position: marker.position,
-          drawsWhenOccluded: marker.drawsWhenOccluded || false,
-          extruded: marker.extruded || false,
-          label: marker.label || "",
-          sizePreserved: marker.sizePreserved || false,
-          zIndex: marker.zIndex || 0,
+          drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
+          extruded: marker.extruded ?? false,
+          label: marker.label ?? "",
+          sizePreserved: marker.sizePreserved ?? false,
+          zIndex: marker.zIndex ?? 0,
         };
 
-        // Remove undefined properties
-        Object.keys(markerOptions).forEach(key => markerOptions[key] === undefined && delete markerOptions[key]);
-
-        let markerElement;
+        markerElement = onClick 
+          ? new Marker3DInteractiveElement(markerOptions)
+          : new Marker3DElement(markerOptions);
 
         if (onClick) {
-          markerElement = new Marker3DInteractiveElement(markerOptions);
           markerElement.addEventListener('gmp-click', onClick);
-        } else {
-          markerElement = new Marker3DElement(markerOptions);
         }
 
-
         mapInstance.appendChild(markerElement);
-
         markerRef.current = markerElement;
       } catch (err) {
         console.error('Error loading 3D marker:', err);
@@ -55,11 +54,18 @@ const Marker3D = ({ marker, onClick }) => {
 
     return () => {
       if (markerRef.current && mapInstance) {
-        mapInstance.removeChild(markerRef.current);
+        try {
+          if (onClick) {
+            markerRef.current.removeEventListener('gmp-click', onClick);
+          }
+          mapInstance.removeChild(markerRef.current);
+          markerRef.current = null;
+        } catch (err) {
+          console.error('Error cleaning up marker:', err);
+        }
       }
     };
-
-  }, [mapInstance, marker]);
+  }, [mapInstance, marker, onClick]);
 
   return null;
 };

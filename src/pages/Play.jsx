@@ -3,20 +3,18 @@ import Map3D from '../components/Map3D';
 import Model3D from '../components/Model3D';
 import LeftSection from '../components/LeftSection';
 import Marker3D from '../components/Marker3D';
-import useMarkers from '../hooks/useMarkers';
+import {useMarkers} from '../contexts/MarkerContext';
 import Overlays from '../data/Overlays';
 import modelsDict from '../data/modelsData';
 import useModels from '../hooks/useModels';
 import { useQuest } from '../contexts/QuestContext';
-
-
+import markersDict from '../data/markers';
 const Play = () => {
-    const { markers, addMarker, removeMarker } = useMarkers();
+    const { markers, addMarker, removeMarker ,logMarkers} = useMarkers();
     const { models, addModel, removeModel } = useModels();
     const [activeOverlay, setActiveOverlay] = useState(null);
     const { startQuest } = useQuest();
 
-    const leftSectionRef = useRef(null);
 
     const handleMarkerClick = (marker) => {
         if (marker.onClick) marker.onClick();
@@ -43,26 +41,39 @@ const Play = () => {
             
             switch (action) {
                 case 'startBumbleBeeQuest':
-
                     addModel(modelsDict.bumblebee);
                     setActiveOverlay({
                         component: Overlays.bumblebee
                     });
                     console.log('Bumblebee quest started!');
+                    removeMarker("bean-marker");
                     break;
-
-                // Add more cases for other quest actions
+                case 'startlostAndFoundQuest':
+                    Object.entries(markersDict.lostandfoundmarkers).forEach(([key, markerData]) => {
+                        const newMarker = {
+                            ...markerData,
+                            onClick: () => {
+                                console.log('Marker clicked:', markerData.id);
+                                removeMarker(markerData.id);
+                            }
+                        };
+    
+                        console.log('Adding new marker:', newMarker);
+                        addMarker(newMarker);
+                    });
+                    // removeMarker("navy-pier-marker-lf");
+                    break;
             }
         };
-
+    
         window.addEventListener('questAction', handleQuestAction);
         return () => window.removeEventListener('questAction', handleQuestAction);
-    }, [addMarker]);
+    }, [addMarker, removeMarker, addModel, setActiveOverlay]);
 
 
     return (
         <div className="flex flex-row h-full w-full flex-grow overflow-hidden">
-            <LeftSection  ref ={leftSectionRef}/>
+            <LeftSection  />
 
             <Map3D mapOptions={{
                 center: { lat: 41.8781, lng: -87.6298, altitude: 1800 },
@@ -77,6 +88,7 @@ const Play = () => {
                         model={model.modelOptions}
                     />
                 ))}
+                {console.log("Looping through markers" , markers)}
                 {markers.map((marker) => (
                     <Marker3D 
                         key={marker.id} 

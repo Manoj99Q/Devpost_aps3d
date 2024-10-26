@@ -7,7 +7,7 @@ import './App.css'
 import LandingPage from './pages/LandingPage'
 import Play from './pages/Play'
 import { QuestProvider } from './contexts/QuestContext.jsx'
-
+import { MarkerProvider } from './contexts/MarkerContext.jsx'
 
 
 function App() {
@@ -36,6 +36,7 @@ function App() {
 
   return (
     <QuestProvider>
+      <MarkerProvider>
     <Router>
       <div className="flex flex-col h-screen overflow-hidden">
         <Navbar />
@@ -47,6 +48,7 @@ function App() {
         </div>
       </div>
     </Router>
+    </MarkerProvider>
     </QuestProvider>
   )
 }

@@ -19,7 +19,7 @@ export const useDialogue = () => {
         clearInterval(intervalId);
         setIsTyping(false);
       }
-    }, 50);
+    }, 1);
 
     return () => clearInterval(intervalId);
   }, []);
