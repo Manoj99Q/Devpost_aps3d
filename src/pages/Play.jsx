@@ -7,23 +7,27 @@ import useMarkers from '../hooks/useMarkers';
 import Overlays from '../data/Overlays';
 import modelsDict from '../data/modelsData';
 import useModels from '../hooks/useModels';
+import { useQuest } from '../contexts/QuestContext';
+
 
 const Play = () => {
     const { markers, addMarker, removeMarker } = useMarkers();
     const { models, addModel, removeModel } = useModels();
     const [activeOverlay, setActiveOverlay] = useState(null);
+    const { startQuest } = useQuest();
 
     const leftSectionRef = useRef(null);
 
     const handleMarkerClick = (marker) => {
         if (marker.onClick) marker.onClick();
         // Extract the character ID from the marker ID (remove the '-marker' suffix)
-        const characterId = marker.id.split('-')[0];
-        // Call the handleCharacterSelect function through the ref
-        if (leftSectionRef.current) {
-            leftSectionRef.current.handleCharacterSelect(characterId);
-        }
+        if(marker.quest){
+            startQuest(marker.quest);
 
+        }
+        console.log(marker);
+        
+ 
         if(marker.overlay){
             setActiveOverlay({
                 component: marker.overlay

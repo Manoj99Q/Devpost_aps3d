@@ -6,6 +6,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import LandingPage from './pages/LandingPage'
 import Play from './pages/Play'
+import { QuestProvider } from './contexts/QuestContext.jsx'
+
 
 
 function App() {
@@ -33,6 +35,7 @@ function App() {
   }, []);
 
   return (
+    <QuestProvider>
     <Router>
       <div className="flex flex-col h-screen overflow-hidden">
         <Navbar />
@@ -44,6 +47,7 @@ function App() {
         </div>
       </div>
     </Router>
+    </QuestProvider>
   )
 }
 

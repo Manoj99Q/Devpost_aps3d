@@ -1,10 +1,9 @@
 // questData.js
 const questData = {
-    bean: {
+  bean_energon: {
       character: {
         name: "Bumblebee",
         avatar: "public/images/characters/bumblebee.jpg", // Add your avatar image
-        mood: "excited"
       },
       dialogues: {
         initial: {
@@ -127,7 +126,66 @@ const questData = {
           // Add more steps...
         ]
       }
+    },
+
+    lostAndFoundQuest :{
+      character: {
+        name: "Mr. O'Hare",
+        avatar: "public/images/characters/mr_ohare.jpg", // Add your avatar image
+      },
+      dialogues: {
+        initial: {
+          text: "Hello there! I'm Mr. O'Hare, and I've misplaced some of my favorite items around Chicago. Could you help me find them?",
+          choices: [
+            {
+              text: "Of course, I'd love to help!",
+              next: "quest_start"
+            },
+            {
+              text: "What exactly did you lose?",
+              next: "more_info"
+            }
+          ]
+        },
+        more_info: {
+          text: "Well, I've lost a few precious things—my old pocket watch, a sketchbook, my favorite Cubs cap, a recipe book, and even my vintage trumpet! Each one is tied to a special place in this wonderful city.",
+          choices: [
+            {
+              text: "Let’s get started!",
+              next: "quest_start"
+            },
+            {
+              text: "Maybe another time.",
+              next: "goodbye"
+            }
+          ]
+        },
+        quest_start: {
+          text: "Great! Let's start with my pocket watch. I think I lost it near The Bean. Click on the marker when you're ready to investigate!",
+          choices: [
+            {
+              text: "Got it!",
+              next: null,
+              action: "startLostAndFoundQuest"
+            }
+          ]
+        },
+        goodbye: {
+          text: "Alright, I understand. Come back if you change your mind—I’ll be right here!",
+          choices: [
+            {
+              text: "Goodbye",
+              next: null
+            }
+          ]
+        }
+      },
+      quest: {
+        id: "lost_and_found",
+        title: "Mr. O'Hare's Lost Treasures"
+      }
     }
+    
   };
   
   export default questData;
