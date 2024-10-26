@@ -36,6 +36,7 @@ const Model3D = ({ model }) => {
         Object.keys(modelOptions).forEach(key => modelOptions[key] === undefined && delete modelOptions[key]);
 
         const modelElement = new Model3DElement(modelOptions);
+        modelElement.addEventListener('gmp-click', ()=>{console.log('Model clicked',modelOptions.src)});
 
         mapInstance.appendChild(modelElement);
         modelRef.current = modelElement;
