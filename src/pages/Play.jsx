@@ -10,12 +10,15 @@ import { useModels } from "../contexts/ModelContext";
 import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
 import useInfinityPath from "../hooks/useInfinityPath";
-import { mark, use } from "framer-motion/client";
+import ExplosionVFX from "../components/ExplosionVFX";
+
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
   const { models, addModel, removeModel } = useModels();
   const [activeOverlay, setActiveOverlay] = useState(null);
-  const { showQuest } = useQuest();
+  const { showQuest, setDialogueState } = useQuest();
+  const [explosions, setExplosions] = useState([]);
+  const screenClickCoords = useRef({ x: 0, y: 0 });
 
   const handleMarkerClick = (marker) => {
     if (marker.onClick) marker.onClick();
@@ -77,26 +80,44 @@ const Play = () => {
 
   // Handle quest actions
   useEffect(() => {
+    // Handle the global document click to capture screen coordinates
+    const handleDocumentClick = (e) => {
+      screenClickCoords.current = { x: e.clientX, y: e.clientY };
+    };
+
     const handleQuestAction = (event) => {
       const { action, data } = event.detail;
 
       switch (action) {
-        case "startPrimeQuest":
+        case "startPrimeQuest": {
           addModel(modelsDict.optimus_prime);
           //   setActiveOverlay({
           //     component: Overlays.bumblebee,
           //   });
 
-          removeMarker("jewelers-building-marker");
+          const handleMarkerRemove = (marker, event) => {
+            console.log(event);
+            // Extracting the map click coordinates from the document click
+            const { x, y } = screenClickCoords.current;
+            const newExplosion = {
+              id: Date.now(),
+              x,
+              y,
+            };
+            setExplosions((prev) => [...prev, newExplosion]);
 
-          //loop through each obbject in markesDict["primeQuestMarkers"] array
+            // Remove marker
+            removeMarker(marker.id);
+          };
+          removeMarker("jewelers-building-marker");
+          setDialogueState(null);
+          // Loop through markers
           markersDict["primeQuestMarkers"].forEach((marker) => {
-            // Assign the onClick handler directly to markerData before adding it
             const pillarMarker = {
               ...marker,
-              onClick: () => {
+              onClick: (event) => {
                 console.log(`Removing marker: ${marker.id}`);
-                removeMarker(marker.id);
+                handleMarkerRemove(marker, event);
               },
             };
 
@@ -104,6 +125,7 @@ const Play = () => {
           });
 
           break;
+        }
         case "startlostAndFoundQuest":
           Object.entries(markersDict.lostandfoundmarkers).forEach(
             ([key, markerData]) => {
@@ -133,7 +155,14 @@ const Play = () => {
     };
 
     window.addEventListener("questAction", handleQuestAction);
-    return () => window.removeEventListener("questAction", handleQuestAction);
+    // Attach the document click listener
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      window.removeEventListener("questAction", handleQuestAction);
+      // Remove the document click listener when component unmounts
+      document.removeEventListener("click", handleDocumentClick);
+    };
   }, [addMarker, removeMarker, addModel, setActiveOverlay]);
 
   useInfinityPath("sea_monster", { scale: 5, speed: 0.15 });
@@ -171,7 +200,10 @@ const Play = () => {
               key={marker.id}
               markerOptions={marker.markerOptions}
               otherOptions={marker.otherOptions}
-              onClick={() => handleMarkerClick(marker)}
+              onClick={(clickEvent) => {
+                console.log("yolyoyl", clickEvent);
+                handleMarkerClick(marker, clickEvent);
+              }}
             />
           );
         })}
@@ -182,6 +214,18 @@ const Play = () => {
           <activeOverlay.component onClose={() => setActiveOverlay(null)} />
         </div>
       )}
+
+      {/* Render explosions */}
+      {explosions.map((explosion) => (
+        <ExplosionVFX
+          key={explosion.id}
+          x={explosion.x}
+          y={explosion.y}
+          onComplete={() => {
+            setExplosions((prev) => prev.filter((e) => e.id !== explosion.id));
+          }}
+        />
+      ))}
     </div>
   );
 };
