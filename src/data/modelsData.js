@@ -39,6 +39,15 @@ const modelsDict = {
       orientation: { tilt: 270, heading: 180 },
     },
   },
+  optimus_prime: {
+    id: "optimus_prime",
+    modelOptions: {
+      src: "public/3dmodels/optimus_prime.glb",
+      position: { lat: 41.876, lng: -87.62, altitude: 0 },
+      scale: 1,
+      orientation: { tilt: 270, heading: 180 },
+    },
+  },
 };
 
 export default modelsDict;

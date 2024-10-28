@@ -11,6 +11,7 @@ const initialMarkersState = [
   markersDict.willis,
   markersDict.oldmanlostandfound,
   markersDict.sea_monster,
+  markersDict.jewelersBuilding,
 ];
 
 // Define action types

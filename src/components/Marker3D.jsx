@@ -93,7 +93,6 @@ const Marker3D = ({ markerOptions, onClick, otherOptions }) => {
 
   // Update marker position if needed
   useEffect(() => {
-    console.log("useeffect called by changing marker options");
     if (markerInstanceRef.current && markerOptions.position) {
       markerInstanceRef.current.position = markerOptions.position;
     }

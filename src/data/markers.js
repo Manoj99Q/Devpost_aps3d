@@ -130,9 +130,25 @@ const markersDict = {
       altitudeMode: "RELATIVE_TO_MESH",
     },
     otherOptions: {
-      scale: 0.5,
+      scale: 0.8,
+    },
+    onClick: () => {
+      console.log("sea monster clicked");
+    },
+    overlay: Overlays.monsterShout,
+  },
+
+  jewelersBuilding: {
+    id: "jewelers-building-marker",
+    markerOptions: {
+      position: { lat: 41.88648, lng: -87.62677, altitude: 10 }, //position="41.88648,-87.62677,30"
+      label: "Jewelers Building",
+      zIndex: 1,
+      altitudeMode: "RELATIVE_TO_MESH",
     },
     onClick: () => {},
+    overlay: Overlays.jewelersBuilding,
+    quest: "optimusPrimeQuest",
   },
 };
 

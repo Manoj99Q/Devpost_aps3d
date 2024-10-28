@@ -1,87 +1,93 @@
 import { useEffect, useRef } from "react";
 import { useModels } from "../contexts/ModelContext";
 
-const useStraightLinePath = (modelId, speed = 1) => {
-  const { updateModel } = useModels();
+const useInfinityPath = (modelId, { speed = 1, scale = 1 } = {}) => {
+  const { updateModel, models } = useModels();
   const intervalRef = useRef(null);
-  const directionRef = useRef(1);
-  const currentPositionRef = useRef(41.86); // Keep track of actual position
-  const currentHeadingRef = useRef(180);
-  const isRotatingRef = useRef(false);
-  const rotationStepRef = useRef(0); // Separate counter for rotation steps
+  const angleRef = useRef(0);
+  const centerRef = useRef(null);
 
   useEffect(() => {
-    const targetIncrement = 0.03;
-    const steps = 100;
-    const incrementPerStep = targetIncrement / steps;
-    const rotationSteps = 50;
-    const rotationIncrement = 180 / rotationSteps;
+    const model = models.find((model) => model.id === modelId);
+    if (!model) return;
 
-    const moveBackAndForth = () => {
-      if (isRotatingRef.current) {
-        // Rotation phase
-        currentHeadingRef.current += rotationIncrement;
-        if (currentHeadingRef.current >= 360) {
-          currentHeadingRef.current -= 360;
-        }
+    // Store the initial position as the center point
+    centerRef.current = {
+      lat: model.modelOptions.position.lat,
+      lng: model.modelOptions.position.lng,
+    };
 
-        updateModel(modelId, {
-          orientation: {
-            heading: currentHeadingRef.current,
-            tilt: 270,
-            roll: 0,
-          },
-        });
+    // Center point of the infinity shape
+    const centerLat = 41.879529;
+    const centerLng = -87.581045;
 
-        rotationStepRef.current++;
-        if (rotationStepRef.current >= rotationSteps) {
-          isRotatingRef.current = false;
-          rotationStepRef.current = 0;
-          // Don't reset position when rotation is complete
-        }
-      } else {
-        // Movement phase
-        const direction = directionRef.current;
+    // Base size of the infinity shape
+    const baseLatRadius = 0.003; // Base radius for latitude
+    const baseLngRadius = 0.006; // Base radius for longitude
 
-        // Update the actual position
-        currentPositionRef.current += incrementPerStep * direction;
+    // Apply scale to the base radius
+    const latRadius = baseLatRadius * scale;
+    const lngRadius = baseLngRadius * scale;
 
-        // Check boundaries
-        if (
-          currentPositionRef.current >= 41.86 + targetIncrement ||
-          currentPositionRef.current <= 41.86
-        ) {
-          isRotatingRef.current = true;
-          directionRef.current *= -1;
-          // Clamp the position to boundaries to prevent overshooting
-          currentPositionRef.current =
-            currentPositionRef.current >= 41.86 + targetIncrement
-              ? 41.86 + targetIncrement
-              : 41.86;
-        }
+    const moveAlongInfinity = () => {
+      // Parametric equations for infinity/figure-8 shape
+      const lat =
+        centerLat +
+        (latRadius * Math.sin(angleRef.current)) /
+          (1 + Math.cos(angleRef.current) ** 2);
+      const lng =
+        centerLng +
+        (lngRadius * Math.sin(angleRef.current) * Math.cos(angleRef.current)) /
+          (1 + Math.cos(angleRef.current) ** 2);
 
-        // Update model's position
-        updateModel(modelId, {
-          position: {
-            lat: currentPositionRef.current,
-            lng: -87.595168,
-            altitude: 0,
-          },
-        });
+      // Calculate heading based on the next position
+      const nextAngle = angleRef.current + 0.1;
+      const nextLat =
+        centerLat +
+        (latRadius * Math.sin(nextAngle)) / (1 + Math.cos(nextAngle) ** 2);
+      const nextLng =
+        centerLng +
+        (lngRadius * Math.sin(nextAngle) * Math.cos(nextAngle)) /
+          (1 + Math.cos(nextAngle) ** 2);
+
+      // Calculate heading angle and add 180 degrees to make the model face forward
+      const deltaLng = nextLng - lng;
+      const deltaLat = nextLat - lat;
+      const heading =
+        ((Math.atan2(deltaLng, deltaLat) * 180) / Math.PI + 180) % 360;
+
+      // Update model position and orientation
+      updateModel(modelId, {
+        position: {
+          lat,
+          lng,
+          altitude: 0,
+        },
+        orientation: {
+          heading,
+          tilt: 270,
+          roll: 0,
+        },
+      });
+
+      // Increment angle for next frame
+      angleRef.current += 0.05 * speed;
+      if (angleRef.current >= 2 * Math.PI) {
+        angleRef.current = 0;
       }
     };
 
-    const intervalTime = 100 / speed;
-    intervalRef.current = setInterval(moveBackAndForth, intervalTime);
+    const intervalTime = 50; // Smaller interval for smoother movement
+    intervalRef.current = setInterval(moveAlongInfinity, intervalTime);
 
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
     };
-  }, [modelId, updateModel, speed]);
+  }, [modelId, updateModel, speed, scale]);
 
   return null;
 };
 
-export default useStraightLinePath;
+export default useInfinityPath;

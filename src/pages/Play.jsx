@@ -9,7 +9,7 @@ import modelsDict from "../data/modelsData";
 import { useModels } from "../contexts/ModelContext";
 import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
-import useStraightLinePath from "../hooks/useInfinityPath";
+import useInfinityPath from "../hooks/useInfinityPath";
 import { use } from "framer-motion/client";
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
@@ -81,13 +81,13 @@ const Play = () => {
       const { action, data } = event.detail;
 
       switch (action) {
-        case "startBumbleBeeQuest":
-          addModel(modelsDict.bumblebee);
-          setActiveOverlay({
-            component: Overlays.bumblebee,
-          });
-          console.log("Bumblebee quest started!");
-          removeMarker("bean-marker");
+        case "startPrimeQuest":
+          addModel(modelsDict.optimus_prime);
+          //   setActiveOverlay({
+          //     component: Overlays.bumblebee,
+          //   });
+
+          removeMarker("jewelers-building-marker");
           break;
         case "startlostAndFoundQuest":
           Object.entries(markersDict.lostandfoundmarkers).forEach(
@@ -121,15 +121,7 @@ const Play = () => {
     return () => window.removeEventListener("questAction", handleQuestAction);
   }, [addMarker, removeMarker, addModel, setActiveOverlay]);
 
-  useStraightLinePath("sea_monster", 2);
-  //   const seamonstermodel = models.find((m) => m.id === "sea_monster");
-  //   updateMarker("sea_monster", {
-  //     position: {
-  //       lat: seamonstermodel.modelOptions.position.lat,
-  //       lng: seamonstermodel.modelOptions.position.lng,
-  //       altitude: 10,
-  //     },
-  //   });
+  useInfinityPath("sea_monster", { scale: 5, speed: 0.15 });
 
   useEffect(() => {
     const seamonstermodel = models.find((m) => m.id === "sea_monster");
