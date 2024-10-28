@@ -33,16 +33,17 @@ const modelsDict = {
         },
         onClick: () => {},
     },
-
-    energonCube: {
-        id: 'energon-cube-model',
+    sea_monster:{
+        id: 'sea_monster',
         modelOptions: {
-            src: 'public/3dmodels/energon_cube.glb',
-            orientation: { tilt: 0 },
-            scale: 1,
-        },
-        onClick: () => {},
+            src: 'public/3dmodels/sea_monster.glb',
+            position: { lat: 41.883983, lng: -87.603976, altitude: 0 },
+            scale: 100,
+            orientation: { tilt: 270 },
+        }
     }
+
+
 };
 
 export default modelsDict;

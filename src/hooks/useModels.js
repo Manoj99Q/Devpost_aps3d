@@ -3,6 +3,7 @@ import modelsDict from '../data/modelsData';
 
 const initialModels = [
     modelsDict.ironman,
+    modelsDict.sea_monster
 ];
 
 const useModels = () => {

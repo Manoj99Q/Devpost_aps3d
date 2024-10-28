@@ -8,7 +8,7 @@ const MarkerContext = createContext();
 // Initial state for markers
 const initialMarkersState = [
   // markersDict.bean,
-  // markersDict.loop,
+  markersDict.willis,
   markersDict.oldmanlostandfound
 ];
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import { Map3DContext } from './Map3D';
 
-const Marker3D = ({ marker, onClick }) => {
+const Marker3D = ({ markerOptions, onClick }) => {
   const { mapInstance } = useContext(Map3DContext);
   const markerInstanceRef = useRef(null);
   const initPromiseRef = useRef(null);
@@ -24,14 +24,14 @@ const Marker3D = ({ marker, onClick }) => {
           
           if (controller.signal.aborted) return;
 
-          const markerOptions = {
-            position: marker.position,
-            drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
-            extruded: marker.extruded ?? false,
-            label: marker.label ?? '',
-            sizePreserved: marker.sizePreserved ?? false,
-            zIndex: marker.zIndex ?? 0,
-          };
+          // const markerOptions = {
+          //   position: marker.position,
+          //   drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
+          //   extruded: marker.extruded ?? false,
+          //   label: marker.label ?? '',
+          //   sizePreserved: marker.sizePreserved ?? false,
+          //   zIndex: marker.zIndex ?? 0,
+          // };
 
           const newMarker = onClick
             ? new Marker3DInteractiveElement(markerOptions)
@@ -49,9 +49,9 @@ const Marker3D = ({ marker, onClick }) => {
           mapInstance.appendChild(newMarker);
           markerInstanceRef.current = newMarker;
           
-          console.log(`Marker ${marker.label} initialized`);
+          console.log(`Marker ${markerOptions.label} initialized`);
         } catch (error) {
-          console.error(`Error initializing marker ${marker.label}:`, error);
+          console.error(`Error initializing marker ${markerOptions.label}:`, error);
           throw error;
         }
       })();
@@ -60,7 +60,7 @@ const Marker3D = ({ marker, onClick }) => {
         await initPromiseRef.current;
       } catch (error) {
         if (!controller.signal.aborted) {
-          console.error(`Failed to initialize marker ${marker.label}:`, error);
+          console.error(`Failed to initialize marker ${markerOptions.label}:`, error);
         }
       }
     }
@@ -78,7 +78,7 @@ const Marker3D = ({ marker, onClick }) => {
         }
         mapInstance?.removeChild(markerInstanceRef.current);
         markerInstanceRef.current = null;
-        console.log(`Marker ${marker.label} cleaned up`);
+        console.log(`Marker ${markerOptions.label} cleaned up`);
       }
       
       initPromiseRef.current = null;
@@ -87,10 +87,10 @@ const Marker3D = ({ marker, onClick }) => {
 
   // Update marker position if needed
   useEffect(() => {
-    if (markerInstanceRef.current && marker.position) {
-      markerInstanceRef.current.position = marker.position;
+    if (markerInstanceRef.current && markerOptions.position) {
+      markerInstanceRef.current.position = markerOptions.position;
     }
-  }, [marker.position]);
+  }, [markerOptions.position]);
 
   return null;
 };

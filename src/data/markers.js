@@ -15,7 +15,19 @@ const markersDict = {
     overlay: null ,
     quest:"bean_energon"
   },
-
+  willis: {
+    id: 'willis-marker',
+    markerOptions: {
+      position: { lat: 41.8789, lng: -87.6359, altitude: 10 },
+      label: "Willis Tower",
+      zIndex: 1,
+      drawsWhenOccluded: true,
+      altitudeMode:"RELATIVE_TO_MESH"
+    },
+    onClick: () => {console.log("willis tower clicked")},
+    overlay: null,
+    quest: "willis_energon"
+  },
   loop: {
     id: 'loop-marker',
     markerOptions: {

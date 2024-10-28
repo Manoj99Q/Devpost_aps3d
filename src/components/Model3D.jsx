@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useContext, useState } from 'react';
 import { Map3DContext } from './Map3D';
 
-const Model3D = ({ model }) => {
+const Model3D = ({ modelOptions }) => {
   const { mapInstance } = useContext(Map3DContext);
   const modelInstanceRef = useRef(null);
   const initPromiseRef = useRef(null);
@@ -16,7 +16,7 @@ const Model3D = ({ model }) => {
         return;
       }
 
-      if (!model.position || !model.src) {
+      if (!modelOptions.position || !modelOptions.src) {
         setError("Both 'position' and 'src' must be set for the Model3DElement to display.");
         return;
       }
@@ -30,12 +30,12 @@ const Model3D = ({ model }) => {
 
           if (controller.signal.aborted) return;
 
-          const modelOptions = {
-            position: model.position,
-            src: model.src,
-            orientation: model.orientation,
-            scale: model.scale,
-          };
+          // const modelOptions = {
+          //   position: model.position,
+          //   src: model.src,
+          //   orientation: model.orientation,
+          //   scale: model.scale,
+          // };
 
           // Remove undefined properties
           Object.keys(modelOptions).forEach(key => 
@@ -100,7 +100,7 @@ const Model3D = ({ model }) => {
       if (model.scale) modelInstanceRef.current.scale = model.scale;
       if (model.orientation) modelInstanceRef.current.orientation = model.orientation;
     }
-  }, [model.position, model.scale, model.orientation]);
+  }, [modelOptions.position, modelOptions.scale, modelOptions.orientation]);
 
   if (error) {
     console.error(error);
