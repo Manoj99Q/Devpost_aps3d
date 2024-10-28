@@ -4,45 +4,76 @@ import { useModels } from "../contexts/ModelContext";
 const useStraightLinePath = (modelId, speed = 1) => {
   const { updateModel } = useModels();
   const intervalRef = useRef(null);
-  const directionRef = useRef(1); // Keeps track of direction (1 for forward, -1 for backward)
-  const currentStepRef = useRef(0);
+  const directionRef = useRef(1);
+  const currentPositionRef = useRef(41.86); // Keep track of actual position
+  const currentHeadingRef = useRef(180);
+  const isRotatingRef = useRef(false);
+  const rotationStepRef = useRef(0); // Separate counter for rotation steps
 
   useEffect(() => {
-    // Define parameters for the straight line movement
-    const targetIncrement = 0.01; // Total movement increment in latitude
-    const steps = 100; // Number of steps (total movement divided into small steps)
-    const incrementPerStep = targetIncrement / steps / speed; // Scaled by speed parameter
+    const targetIncrement = 0.03;
+    const steps = 100;
+    const incrementPerStep = targetIncrement / steps;
+    const rotationSteps = 50;
+    const rotationIncrement = 180 / rotationSteps;
 
-    // Function to update model position in each interval
     const moveBackAndForth = () => {
-      const direction = directionRef.current;
-      const displacement = direction * incrementPerStep;
+      if (isRotatingRef.current) {
+        // Rotation phase
+        currentHeadingRef.current += rotationIncrement;
+        if (currentHeadingRef.current >= 360) {
+          currentHeadingRef.current -= 360;
+        }
 
-      // Update current step by the direction factor
-      currentStepRef.current += direction;
+        updateModel(modelId, {
+          orientation: {
+            heading: currentHeadingRef.current,
+            tilt: 270,
+            roll: 0,
+          },
+        });
 
-      // Calculate new latitude based on current step
-      const newLat = 41.88 + incrementPerStep * currentStepRef.current;
+        rotationStepRef.current++;
+        if (rotationStepRef.current >= rotationSteps) {
+          isRotatingRef.current = false;
+          rotationStepRef.current = 0;
+          // Don't reset position when rotation is complete
+        }
+      } else {
+        // Movement phase
+        const direction = directionRef.current;
 
-      // Update model's position
-      updateModel(modelId, {
-        position: {
-          lat: newLat,
-          lng: -87.595168,
-          altitude: 0,
-        },
-      });
+        // Update the actual position
+        currentPositionRef.current += incrementPerStep * direction;
 
-      // If we've reached the limit of the steps, reverse the direction
-      if (currentStepRef.current >= steps || currentStepRef.current <= 0) {
-        directionRef.current *= -1; // Reverse direction
+        // Check boundaries
+        if (
+          currentPositionRef.current >= 41.86 + targetIncrement ||
+          currentPositionRef.current <= 41.86
+        ) {
+          isRotatingRef.current = true;
+          directionRef.current *= -1;
+          // Clamp the position to boundaries to prevent overshooting
+          currentPositionRef.current =
+            currentPositionRef.current >= 41.86 + targetIncrement
+              ? 41.86 + targetIncrement
+              : 41.86;
+        }
+
+        // Update model's position
+        updateModel(modelId, {
+          position: {
+            lat: currentPositionRef.current,
+            lng: -87.595168,
+            altitude: 0,
+          },
+        });
       }
     };
 
-    // Use setInterval to call moveBackAndForth at regular intervals
-    intervalRef.current = setInterval(moveBackAndForth, 100); // Update every 100 ms
+    const intervalTime = 100 / speed;
+    intervalRef.current = setInterval(moveBackAndForth, intervalTime);
 
-    // Cleanup function to clear interval on component unmount
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -50,7 +81,7 @@ const useStraightLinePath = (modelId, speed = 1) => {
     };
   }, [modelId, updateModel, speed]);
 
-  return null; // This hook doesn't render anything, so return null
+  return null;
 };
 
 export default useStraightLinePath;

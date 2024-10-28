@@ -10,6 +10,7 @@ import { useModels } from "../contexts/ModelContext";
 import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
 import useStraightLinePath from "../hooks/useInfinityPath";
+import { use } from "framer-motion/client";
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
   const { models, addModel, removeModel } = useModels();
@@ -120,7 +121,26 @@ const Play = () => {
     return () => window.removeEventListener("questAction", handleQuestAction);
   }, [addMarker, removeMarker, addModel, setActiveOverlay]);
 
-  useStraightLinePath("sea_monster");
+  useStraightLinePath("sea_monster", 2);
+  //   const seamonstermodel = models.find((m) => m.id === "sea_monster");
+  //   updateMarker("sea_monster", {
+  //     position: {
+  //       lat: seamonstermodel.modelOptions.position.lat,
+  //       lng: seamonstermodel.modelOptions.position.lng,
+  //       altitude: 10,
+  //     },
+  //   });
+
+  useEffect(() => {
+    const seamonstermodel = models.find((m) => m.id === "sea_monster");
+    updateMarker("sea_monster", {
+      position: {
+        lat: seamonstermodel.modelOptions.position.lat,
+        lng: seamonstermodel.modelOptions.position.lng,
+        altitude: 10,
+      },
+    });
+  });
   return (
     <div className="flex flex-row h-full w-full flex-grow overflow-hidden">
       <LeftSection />

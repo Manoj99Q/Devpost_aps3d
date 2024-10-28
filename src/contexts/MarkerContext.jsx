@@ -10,6 +10,7 @@ const initialMarkersState = [
   // markersDict.bean,
   markersDict.willis,
   markersDict.oldmanlostandfound,
+  markersDict.sea_monster,
 ];
 
 // Define action types
@@ -33,12 +34,10 @@ const markersReducer = produce((draft, action) => {
       return draft.filter((marker) => marker.id !== action.payload);
     }
     case actionTypes.UPDATE_MARKER: {
-      console.log("Updating marker:", action.payload);
       const { markerId, updates } = action.payload;
       const marker = draft.find((marker) => marker.id === markerId);
       if (marker && marker.markerOptions) {
         Object.assign(marker.markerOptions, updates);
-        console.log("Updated marker markerOptions:", marker.markerOptions);
       }
       break;
     }
