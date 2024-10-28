@@ -6,9 +6,10 @@ import Marker3D from "../components/Marker3D";
 import { useMarkers } from "../contexts/MarkerContext";
 import Overlays from "../data/Overlays";
 import modelsDict from "../data/modelsData";
-import useModels from "../hooks/useModels";
+import { useModels } from "../contexts/ModelContext";
 import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
+import useStraightLinePath from "../hooks/useInfinityPath";
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
   const { models, addModel, removeModel } = useModels();
@@ -119,6 +120,7 @@ const Play = () => {
     return () => window.removeEventListener("questAction", handleQuestAction);
   }, [addMarker, removeMarker, addModel, setActiveOverlay]);
 
+  useStraightLinePath("sea_monster");
   return (
     <div className="flex flex-row h-full w-full flex-grow overflow-hidden">
       <LeftSection />
@@ -137,7 +139,6 @@ const Play = () => {
         ))}
 
         {markers.map((marker) => {
-          console.log("Rendering marker:", marker);
           return (
             <Marker3D
               key={marker.id}
