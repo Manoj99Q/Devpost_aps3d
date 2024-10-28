@@ -29,13 +29,11 @@ const modelsReducer = produce((draft, action) => {
       return draft.filter((model) => model.id !== action.payload);
     }
     case actionTypes.UPDATE_MODEL: {
-      console.log("Updating model:", action.payload);
       const { modelId, updates } = action.payload;
       const model = draft.find((model) => model.id === modelId);
       if (model && model.modelOptions) {
         // Merge updates into modelOptions
         Object.assign(model.modelOptions, updates);
-        console.log("Updated model modelOptions:", model.modelOptions);
       }
       break;
     }

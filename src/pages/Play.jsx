@@ -135,12 +135,12 @@ const Play = () => {
     const seamonstermodel = models.find((m) => m.id === "sea_monster");
     updateMarker("sea_monster", {
       position: {
+        altitude: markersDict["sea_monster"].markerOptions.position.altitude,
         lat: seamonstermodel.modelOptions.position.lat,
         lng: seamonstermodel.modelOptions.position.lng,
-        altitude: 10,
       },
     });
-  });
+  }, [models]);
   return (
     <div className="flex flex-row h-full w-full flex-grow overflow-hidden">
       <LeftSection />
@@ -163,6 +163,7 @@ const Play = () => {
             <Marker3D
               key={marker.id}
               markerOptions={marker.markerOptions}
+              otherOptions={marker.otherOptions}
               onClick={() => handleMarkerClick(marker)}
             />
           );

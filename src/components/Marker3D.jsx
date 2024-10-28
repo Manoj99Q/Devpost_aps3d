@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
 import { Map3DContext } from "./Map3D";
+import { s } from "framer-motion/client";
 
-const Marker3D = ({ markerOptions, onClick }) => {
+const Marker3D = ({ markerOptions, onClick, otherOptions }) => {
   const { mapInstance } = useContext(Map3DContext);
   const markerInstanceRef = useRef(null);
   const initPromiseRef = useRef(null);
@@ -22,17 +23,8 @@ const Marker3D = ({ markerOptions, onClick }) => {
 
           const { Marker3DElement, Marker3DInteractiveElement } =
             await google.maps.importLibrary("maps3d");
-
+          const { PinElement } = await google.maps.importLibrary("marker");
           if (controller.signal.aborted) return;
-
-          // const markerOptions = {
-          //   position: marker.position,
-          //   drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
-          //   extruded: marker.extruded ?? false,
-          //   label: marker.label ?? '',
-          //   sizePreserved: marker.sizePreserved ?? false,
-          //   zIndex: marker.zIndex ?? 0,
-          // };
 
           const newMarker = onClick
             ? new Marker3DInteractiveElement(markerOptions)
@@ -45,6 +37,13 @@ const Marker3D = ({ markerOptions, onClick }) => {
 
           if (onClick) {
             newMarker.addEventListener("gmp-click", onClick);
+          }
+
+          if (otherOptions && otherOptions.scale) {
+            const pin = new PinElement({
+              scale: otherOptions.scale,
+            });
+            newMarker.appendChild(pin);
           }
 
           mapInstance.appendChild(newMarker);

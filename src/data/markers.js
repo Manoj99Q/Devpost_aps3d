@@ -124,10 +124,13 @@ const markersDict = {
   sea_monster: {
     id: "sea_monster",
     markerOptions: {
-      position: { lat: 41.875, lng: -87.595168, altitude: 10 },
-      label: "Sea Monster",
+      position: { lat: 41.875, lng: -87.595168, altitude: 300 },
+      label: " ",
       zIndex: 1,
-      altitudeMode: "RELATIVE_TO_GROUND",
+      altitudeMode: "RELATIVE_TO_MESH",
+    },
+    otherOptions: {
+      scale: 0.5,
     },
     onClick: () => {},
   },
