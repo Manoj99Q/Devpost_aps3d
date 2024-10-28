@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useContext, useState } from 'react';
-import { Map3DContext } from './Map3D';
+import React, { useEffect, useRef, useContext, useState } from "react";
+import { Map3DContext } from "./Map3D";
 
 const Model3D = ({ modelOptions }) => {
   const { mapInstance } = useContext(Map3DContext);
@@ -17,7 +17,9 @@ const Model3D = ({ modelOptions }) => {
       }
 
       if (!modelOptions.position || !modelOptions.src) {
-        setError("Both 'position' and 'src' must be set for the Model3DElement to display.");
+        setError(
+          "Both 'position' and 'src' must be set for the Model3DElement to display."
+        );
         return;
       }
 
@@ -26,7 +28,7 @@ const Model3D = ({ modelOptions }) => {
         try {
           if (controller.signal.aborted) return;
 
-          const { Model3DElement } = await google.maps.importLibrary('maps3d');
+          const { Model3DElement } = await google.maps.importLibrary("maps3d");
 
           if (controller.signal.aborted) return;
 
@@ -38,8 +40,8 @@ const Model3D = ({ modelOptions }) => {
           // };
 
           // Remove undefined properties
-          Object.keys(modelOptions).forEach(key => 
-            modelOptions[key] === undefined && delete modelOptions[key]
+          Object.keys(modelOptions).forEach(
+            (key) => modelOptions[key] === undefined && delete modelOptions[key]
           );
 
           const newModel = new Model3DElement(modelOptions);
@@ -49,13 +51,13 @@ const Model3D = ({ modelOptions }) => {
             return;
           }
 
-          newModel.addEventListener('gmp-click', () => {
-            console.log('Model clicked', modelOptions.src);
+          newModel.addEventListener("gmp-click", () => {
+            console.log("Model clicked", modelOptions.src);
           });
 
           mapInstance.appendChild(newModel);
           modelInstanceRef.current = newModel;
-          
+
           console.log(`Model ${model.src} initialized`);
         } catch (error) {
           console.error(`Error initializing model ${model.src}:`, error);
@@ -79,26 +81,29 @@ const Model3D = ({ modelOptions }) => {
 
     return () => {
       controller.abort();
-      
+
       if (modelInstanceRef.current) {
-        modelInstanceRef.current.removeEventListener('gmp-click', () => {
-          console.log('Model clicked', model.src);
+        modelInstanceRef.current.removeEventListener("gmp-click", () => {
+          console.log("Model clicked", model.src);
         });
         mapInstance?.removeChild(modelInstanceRef.current);
         modelInstanceRef.current = null;
         console.log(`Model ${model.src} cleaned up`);
       }
-      
+
       initPromiseRef.current = null;
     };
   }, [mapInstance]);
 
-  // Update model properties if needed
+  //update model
   useEffect(() => {
     if (modelInstanceRef.current) {
-      if (model.position) modelInstanceRef.current.position = model.position;
-      if (model.scale) modelInstanceRef.current.scale = model.scale;
-      if (model.orientation) modelInstanceRef.current.orientation = model.orientation;
+      if (modelOptions.position)
+        modelInstanceRef.current.position = modelOptions.position;
+      if (modelOptions.scale)
+        modelInstanceRef.current.scale = modelOptions.scale;
+      if (modelOptions.orientation)
+        modelInstanceRef.current.orientation = modelOptions.orientation;
     }
   }, [modelOptions.position, modelOptions.scale, modelOptions.orientation]);
 

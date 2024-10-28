@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useContext, useState } from 'react';
-import { Map3DContext } from './Map3D';
+import React, { useEffect, useRef, useContext, useState } from "react";
+import { Map3DContext } from "./Map3D";
 
 const Marker3D = ({ markerOptions, onClick }) => {
   const { mapInstance } = useContext(Map3DContext);
@@ -19,9 +19,10 @@ const Marker3D = ({ markerOptions, onClick }) => {
       initPromiseRef.current = (async () => {
         try {
           if (controller.signal.aborted) return;
-          
-          const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary('maps3d');
-          
+
+          const { Marker3DElement, Marker3DInteractiveElement } =
+            await google.maps.importLibrary("maps3d");
+
           if (controller.signal.aborted) return;
 
           // const markerOptions = {
@@ -43,15 +44,18 @@ const Marker3D = ({ markerOptions, onClick }) => {
           }
 
           if (onClick) {
-            newMarker.addEventListener('gmp-click', onClick);
+            newMarker.addEventListener("gmp-click", onClick);
           }
 
           mapInstance.appendChild(newMarker);
           markerInstanceRef.current = newMarker;
-          
+
           console.log(`Marker ${markerOptions.label} initialized`);
         } catch (error) {
-          console.error(`Error initializing marker ${markerOptions.label}:`, error);
+          console.error(
+            `Error initializing marker ${markerOptions.label}:`,
+            error
+          );
           throw error;
         }
       })();
@@ -60,7 +64,10 @@ const Marker3D = ({ markerOptions, onClick }) => {
         await initPromiseRef.current;
       } catch (error) {
         if (!controller.signal.aborted) {
-          console.error(`Failed to initialize marker ${markerOptions.label}:`, error);
+          console.error(
+            `Failed to initialize marker ${markerOptions.label}:`,
+            error
+          );
         }
       }
     }
@@ -71,22 +78,23 @@ const Marker3D = ({ markerOptions, onClick }) => {
 
     return () => {
       controller.abort();
-      
+
       if (markerInstanceRef.current) {
         if (onClick) {
-          markerInstanceRef.current.removeEventListener('gmp-click', onClick);
+          markerInstanceRef.current.removeEventListener("gmp-click", onClick);
         }
         mapInstance?.removeChild(markerInstanceRef.current);
         markerInstanceRef.current = null;
         console.log(`Marker ${markerOptions.label} cleaned up`);
       }
-      
+
       initPromiseRef.current = null;
     };
   }, [mapInstance]);
 
   // Update marker position if needed
   useEffect(() => {
+    console.log("useeffect called by changing marker options");
     if (markerInstanceRef.current && markerOptions.position) {
       markerInstanceRef.current.position = markerOptions.position;
     }

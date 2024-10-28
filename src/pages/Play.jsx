@@ -29,9 +29,49 @@ const Play = () => {
       });
     }
   };
+
   useEffect(() => {
-    console.log("Markers state updated:", markers);
-  }, [markers]);
+    const handleWillisClick = (event) => {
+      console.log("Willis clicked!", event.detail);
+
+      // Find current Willis marker
+      const willisMarker = markers.find((m) => m.id === "willis-marker");
+      const currentLat = willisMarker?.markerOptions?.position?.lat ?? 41.8789;
+
+      // Define the target latitude increment (we want a total of +0.005 over 5 seconds)
+      const targetIncrement = 0.005;
+      const steps = 50; // Number of steps over 5 seconds (updates every 100 ms)
+      const incrementPerStep = targetIncrement / steps; // Small increment per step
+      let currentStep = 0;
+
+      // Use setInterval to gradually update the position
+      const intervalId = setInterval(() => {
+        // Update only the position
+        const newLat = currentLat + incrementPerStep * currentStep;
+        updateMarker("willis-marker", {
+          position: {
+            lat: newLat,
+            lng: -87.6359,
+            altitude: 10,
+          },
+        });
+
+        currentStep++;
+
+        // Stop the updates after reaching the desired number of steps
+        if (currentStep > steps) {
+          clearInterval(intervalId);
+          console.log("Willis marker updates completed");
+        }
+      }, 100); // Update every 100 ms
+
+      console.log(markers);
+    };
+
+    document.addEventListener("willisClicked", handleWillisClick);
+    return () =>
+      document.removeEventListener("willisClicked", handleWillisClick);
+  }, [updateMarker, markers]);
 
   // Handle quest actions
   useEffect(() => {
@@ -45,7 +85,7 @@ const Play = () => {
             component: Overlays.bumblebee,
           });
           console.log("Bumblebee quest started!");
-          // removeMarker("bean-marker");
+          removeMarker("bean-marker");
           break;
         case "startlostAndFoundQuest":
           Object.entries(markersDict.lostandfoundmarkers).forEach(
@@ -97,7 +137,7 @@ const Play = () => {
         ))}
 
         {markers.map((marker) => {
-          console.log("Rendering marker:", marker.id);
+          console.log("Rendering marker:", marker);
           return (
             <Marker3D
               key={marker.id}

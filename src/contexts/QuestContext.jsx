@@ -6,14 +6,7 @@ const QuestContext = createContext();
 
 export const QuestProvider = ({ children }) => {
   const [activeCharacter, setActiveCharacter] = useState(null);
-  const [dialogueState, setDialogueState] = useState({
-    text: "Welcome, adventurer! Are you ready to embark on an epic journey?",
-    choices: [],
-    characterInfo: {
-      name: "Guide",
-      avatar: "public/images/architect.png",
-    },
-  });
+  const [dialogueState, setDialogueState] = useState(null);
 
   const emitQuestAction = useCallback((action, data) => {
     window.dispatchEvent(
@@ -26,8 +19,9 @@ export const QuestProvider = ({ children }) => {
   const showQuest = useCallback((questname) => {
     console.log("showing ", questname);
     const characterData = questData[questname];
-    console.log(characterData);
+
     if (characterData) {
+      console.log(characterData);
       setActiveCharacter(questname);
       setDialogueState({
         text: characterData.dialogues.initial.text,
