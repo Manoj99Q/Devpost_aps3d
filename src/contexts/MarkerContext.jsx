@@ -1,36 +1,74 @@
 // MarkerContext.js
-import { createContext, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useReducer } from 'react';
+import {produce} from 'immer';
 import markersDict from '../data/markers';
 
 const MarkerContext = createContext();
 
+// Initial state for markers
+const initialMarkersState = [
+  // markersDict.bean,
+  // markersDict.loop,
+  markersDict.oldmanlostandfound
+];
+
+// Define action types
+const actionTypes = {
+  ADD_MARKER: 'ADD_MARKER',
+  REMOVE_MARKER: 'REMOVE_MARKER',
+  UPDATE_MARKER: 'UPDATE_MARKER', // General update action
+};
+
+// Reducer function using immer
+const markersReducer = produce((draft, action) => {
+  switch (action.type) {
+    case actionTypes.ADD_MARKER: {
+      const exists = draft.some(marker => marker.id === action.payload.id);
+      if (!exists) {
+        draft.push(action.payload);
+      }
+      break;
+    }
+    case actionTypes.REMOVE_MARKER: {
+      return draft.filter(marker => marker.id !== action.payload);
+    }
+    case actionTypes.UPDATE_MARKER: {
+      const { markerId, updates } = action.payload;
+      const marker = draft.find(marker => marker.id === markerId);
+      if (marker) {
+        Object.assign(marker, updates);
+      }
+      break;
+    }
+    default:
+      break;
+  }
+});
+
+// MarkerProvider component
 export const MarkerProvider = ({ children }) => {
-  const [markers, setMarkers] = useState([
-    markersDict.bean,
-    markersDict.willis,
-    markersDict.oldmanlostandfound
-  ]);
+  const [markers, dispatch] = useReducer(markersReducer, initialMarkersState);
 
-  const addMarker = useCallback((marker) => {
-    setMarkers(prevMarkers => {
-      // Check if marker already exists
-      const exists = prevMarkers.some(m => m.id === marker.id);
-      if (exists) return prevMarkers;
-      return [...prevMarkers, marker];
-    });
-  }, []);
+  // Action creators
+  const addMarker = (marker) => {
+    dispatch({ type: actionTypes.ADD_MARKER, payload: marker });
+  };
 
-  const removeMarker = useCallback((markerId) => {
-    setMarkers(prevMarkers => {
-      console.log("Removing marker:", markerId);
-      return prevMarkers.filter(marker => marker.id !== markerId);
-    });
-  }, []);
+  const removeMarker = (markerId) => {
+    console.log("Removing marker:", markerId);
+    dispatch({ type: actionTypes.REMOVE_MARKER, payload: markerId });
+  };
+
+  // General update function for markers
+  const updateMarker = (markerId, updates) => {
+    dispatch({ type: actionTypes.UPDATE_MARKER, payload: { markerId, updates } });
+  };
 
   const value = {
     markers,
     addMarker,
-    removeMarker
+    removeMarker,
+    updateMarker,
   };
 
   return (
@@ -40,6 +78,7 @@ export const MarkerProvider = ({ children }) => {
   );
 };
 
+// Custom hook to use marker context
 export const useMarkers = () => {
   const context = useContext(MarkerContext);
   if (context === undefined) {

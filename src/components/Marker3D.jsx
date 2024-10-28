@@ -3,69 +3,94 @@ import { Map3DContext } from './Map3D';
 
 const Marker3D = ({ marker, onClick }) => {
   const { mapInstance } = useContext(Map3DContext);
-  const markerRef = useRef(null);
-  const [error, setError] = useState(null);
+  const markerInstanceRef = useRef(null);
+  const initPromiseRef = useRef(null);
 
   useEffect(() => {
-    let markerElement = null;
-    
-    const initMarker = async () => {
-      if (!mapInstance) return;
-      if (!marker.position) {
-        setError("The 'position' must be set for the Marker3DElement to display.");
+    const controller = new AbortController();
+
+    async function initializeMarker() {
+      // If already initializing or initialized, skip
+      if (initPromiseRef.current || markerInstanceRef.current) {
         return;
       }
 
+      // Set the promise ref immediately to prevent double initialization
+      initPromiseRef.current = (async () => {
+        try {
+          if (controller.signal.aborted) return;
+          
+          const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary('maps3d');
+          
+          if (controller.signal.aborted) return;
+
+          const markerOptions = {
+            position: marker.position,
+            drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
+            extruded: marker.extruded ?? false,
+            label: marker.label ?? '',
+            sizePreserved: marker.sizePreserved ?? false,
+            zIndex: marker.zIndex ?? 0,
+          };
+
+          const newMarker = onClick
+            ? new Marker3DInteractiveElement(markerOptions)
+            : new Marker3DElement(markerOptions);
+
+          if (controller.signal.aborted) {
+            newMarker.remove();
+            return;
+          }
+
+          if (onClick) {
+            newMarker.addEventListener('gmp-click', onClick);
+          }
+
+          mapInstance.appendChild(newMarker);
+          markerInstanceRef.current = newMarker;
+          
+          console.log(`Marker ${marker.label} initialized`);
+        } catch (error) {
+          console.error(`Error initializing marker ${marker.label}:`, error);
+          throw error;
+        }
+      })();
+
       try {
-        // Clean up existing marker if it exists
-        if (markerRef.current && mapInstance) {
-          mapInstance.removeChild(markerRef.current);
-          markerRef.current = null;
+        await initPromiseRef.current;
+      } catch (error) {
+        if (!controller.signal.aborted) {
+          console.error(`Failed to initialize marker ${marker.label}:`, error);
         }
-
-        const { Marker3DElement, Marker3DInteractiveElement } = await google.maps.importLibrary("maps3d");
-
-        const markerOptions = {
-          position: marker.position,
-          drawsWhenOccluded: marker.drawsWhenOccluded ?? false,
-          extruded: marker.extruded ?? false,
-          label: marker.label ?? "",
-          sizePreserved: marker.sizePreserved ?? false,
-          zIndex: marker.zIndex ?? 0,
-        };
-
-        markerElement = onClick 
-          ? new Marker3DInteractiveElement(markerOptions)
-          : new Marker3DElement(markerOptions);
-
-        if (onClick) {
-          markerElement.addEventListener('gmp-click', onClick);
-        }
-
-        mapInstance.appendChild(markerElement);
-        markerRef.current = markerElement;
-      } catch (err) {
-        console.error('Error loading 3D marker:', err);
-        setError(`Error loading 3D marker: ${err.message}`);
       }
-    };
+    }
 
-    initMarker();
+    if (mapInstance) {
+      initializeMarker();
+    }
 
     return () => {
-      if (markerRef.current && mapInstance) {
-        try {
-          if (onClick) {
-            markerRef.current.removeEventListener('gmp-click', onClick);
-          }
-          mapInstance.removeChild(markerRef.current);
-          markerRef.current = null;
-        } catch (err) {
-          console.error('Error cleaning up marker:', err);
+      controller.abort();
+      
+      if (markerInstanceRef.current) {
+        if (onClick) {
+          markerInstanceRef.current.removeEventListener('gmp-click', onClick);
         }
+        mapInstance?.removeChild(markerInstanceRef.current);
+        markerInstanceRef.current = null;
+        console.log(`Marker ${marker.label} cleaned up`);
       }
+      
+      initPromiseRef.current = null;
     };
-  }, [mapInstance, marker, onClick]);
+  }, [mapInstance]);
+
+  // Update marker position if needed
+  useEffect(() => {
+    if (markerInstanceRef.current && marker.position) {
+      markerInstanceRef.current.position = marker.position;
+    }
+  }, [marker.position]);
 
   return null;
 };

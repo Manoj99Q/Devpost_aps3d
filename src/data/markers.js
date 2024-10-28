@@ -11,22 +11,21 @@ const markersDict = {
       label: "Cloud Gate (The Bean)",
       zIndex: 1,
     },
-    onClick: () => {},
+    onClick: () => {console.log("bean clicked")},
     overlay: null ,
     quest:"bean_energon"
   },
 
-  willis: {
-    id: 'willis-marker',
+  loop: {
+    id: 'loop-marker',
     markerOptions: {
-      position: { lat: 41.8789, lng: -87.6359, altitude: 10 },
-      label: "Willis Tower",
+      position: { lat: 41.8786, lng: -87.6251, altitude: 10 }, // Center of the Loop
+      label: "The Chicago Loop",
       zIndex: 1,
     },
     onClick: () => {},
-    overlay: Overlays.willis  // Direct component reference
+    overlay: Overlays.loop
   },
-
   navyPier: {
     id: 'navy-pier-marker',
     markerOptions: {

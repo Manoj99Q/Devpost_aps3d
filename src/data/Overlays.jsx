@@ -1,6 +1,8 @@
 import React from 'react';
 import { Camera, Clock, MapPin, Film, Clapperboard, Star } from 'lucide-react';
 import TransformersOverlay from '../components/Overlays/TransormersOverlay';
+import LoopOverlay from '../components/Overlays/LoopOverlay';
+
 
 const BeanOverlay = ({ onClose }) => (
   <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-lg shadow-xl max-w-md">
@@ -107,7 +109,8 @@ const Overlays = {
   bean: BeanOverlay,
   willis: WillisOverlay,
   navyPier: NavyPierOverlay,
-  bumblebee: TransformersOverlay
+  bumblebee: TransformersOverlay,
+  loop: LoopOverlay
 };
 
 export default Overlays;

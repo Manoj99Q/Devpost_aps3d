@@ -1,4 +1,4 @@
-
+import { useMarkers } from "../contexts/MarkerContext";
 
 const questData = {
   bean_energon: {

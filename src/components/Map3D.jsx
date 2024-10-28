@@ -8,41 +8,67 @@ const Map3D = ({ children, mapOptions }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const initMap = async () => {
-      if (!window.google || !window.google.maps) {
-        console.error('Google Maps API is not loaded');
-        return;
-      }
-      try {
-        const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+    let isMounted = true;
 
-        const defaultOptions = {
-          center: { lat: 0, lng: 0.98, altitude: 1800 },
-          heading: -90,
-          tilt: 90,
-          defaultLabelsDisabled: false,
+    const waitForGoogleMapsAPI = () => {
+      return new Promise((resolve, reject) => {
+        const maxAttempts = 10;
+        let attempts = 0;
+
+        const checkGoogleMapsAPI = () => {
+          if (window.google && window.google.maps) {
+            resolve();
+          } else if (attempts >= maxAttempts) {
+            reject(new Error('Google Maps API failed to load'));
+          } else {
+            attempts++;
+            setTimeout(checkGoogleMapsAPI, 500);
+          }
         };
 
-        const map = new Map3DElement({ ...defaultOptions, ...mapOptions });
+        checkGoogleMapsAPI();
+      });
+    };
 
-        mapRef.current.appendChild(map);
-        setMapInstance(map);
+    const initMap = async () => {
+      try {
+        await waitForGoogleMapsAPI();
+
+        if (!isMounted) return;
+
+        if (!mapInstance) {
+          const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+
+          const defaultOptions = {
+            center: { lat: 0, lng: 0.98, altitude: 1800 },
+            heading: -90,
+            tilt: 90,
+            defaultLabelsDisabled: false,
+          };
+
+          const map = new Map3DElement({ ...defaultOptions, ...mapOptions });
+
+          if (mapRef.current) {
+            mapRef.current.appendChild(map);
+            setMapInstance(map);
+          }
+        }
       } catch (err) {
         console.error('Error importing maps3d library:', err);
-        setError('Error importing maps3d library');
+        if (isMounted) setError('Error importing maps3d library');
       }
     };
 
-    if (!mapInstance) {
-      initMap();
-    }
+    initMap();
 
     return () => {
-      if (mapInstance && mapRef.current.contains(mapInstance)) {
+      isMounted = false;
+      // Remove map from DOM only if necessary
+      if (mapInstance && mapRef.current && mapRef.current.contains(mapInstance)) {
         mapRef.current.removeChild(mapInstance);
       }
     };
-  }, [mapInstance]);
+  }, []); // Use an empty dependency array to run only on initial mount
 
   if (error) {
     return <div>Error loading map: {error}</div>;
@@ -51,7 +77,12 @@ const Map3D = ({ children, mapOptions }) => {
   return (
     <Map3DContext.Provider value={{ mapInstance }}>
       <div ref={mapRef} style={{ height: '100%', width: '100%', overflow: 'hidden' }}>
-        {children}
+        {mapInstance && React.Children.map(children, child => {
+          if (!React.isValidElement(child)) return null;
+          return React.cloneElement(child, {
+            key: child.key || Math.random().toString(36).substr(2, 9)
+          });
+        })}
       </div>
     </Map3DContext.Provider>
   );
