@@ -1,6 +1,8 @@
 // markersDict.js
 import Overlays from "./Overlays";
 
+const primequestmarkerheight = 81;
+
 const markersDict = {
   bean: {
     id: "bean-marker",
@@ -125,7 +127,7 @@ const markersDict = {
     id: "sea_monster",
     markerOptions: {
       position: { lat: 41.875, lng: -87.595168, altitude: 300 },
-      label: " ",
+      label: "  ",
       zIndex: 1,
       altitudeMode: "RELATIVE_TO_MESH",
     },
@@ -141,8 +143,12 @@ const markersDict = {
   jewelersBuilding: {
     id: "jewelers-building-marker",
     markerOptions: {
-      position: { lat: 41.88648, lng: -87.62677, altitude: 10 }, //position="41.88648,-87.62677,30"
-      label: "Jewelers Building",
+      position: {
+        lat: 41.8865193030709,
+        lng: -87.62679081672466,
+        altitude: 34.4,
+      }, //position="41.88648,-87.62677,30"
+      label: " Jewelers Building",
       zIndex: 1,
       altitudeMode: "RELATIVE_TO_MESH",
     },
@@ -150,6 +156,68 @@ const markersDict = {
     overlay: Overlays.jewelersBuilding,
     quest: "optimusPrimeQuest",
   },
+  primeQuestMarkers: [
+    {
+      id: "prime-quest-marker1",
+      markerOptions: {
+        position: {
+          lat: 41.886361114935276,
+          lng: -87.62649376618572,
+          altitude: primequestmarkerheight,
+        },
+        label: "  ",
+        zIndex: 1,
+        altitudeMode: "RELATIVE_TO_GROUND",
+      },
+      onClick: () => {},
+      overlay: null,
+    },
+    {
+      id: "prime-quest-marker2",
+      markerOptions: {
+        position: {
+          lat: 41.886685251837285,
+          lng: -87.62650674318988,
+          altitude: primequestmarkerheight,
+        },
+        label: "  ",
+        zIndex: 1,
+        altitudeMode: "RELATIVE_TO_GROUND",
+      },
+      onClick: () => {},
+      overlay: null,
+    },
+    {
+      id: "prime-quest-marker3",
+      markerOptions: {
+        position: {
+          lat: 41.886337796263604,
+          lng: -87.62704655943837,
+          altitude: primequestmarkerheight,
+        },
+        label: "  ",
+        zIndex: 1,
+        altitudeMode: "RELATIVE_TO_GROUND",
+      },
+      onClick: () => {},
+      overlay: null,
+    },
+    {
+      id: "prime-quest-marker4",
+      markerOptions: {
+        position: {
+          lat: 41.88671485408783,
+          lng: -87.62706847755229,
+          altitude: primequestmarkerheight,
+        },
+        label: "  ",
+        zIndex: 1,
+        altitudeMode: "RELATIVE_TO_GROUND",
+      },
+      onClick: () => {},
+      overlay: null,
+    },
+  ],
 };
 
 export default markersDict;

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, createContext } from 'react';
+import React, { useEffect, useRef, useState, createContext } from "react";
 
 export const Map3DContext = createContext();
 
@@ -19,7 +19,7 @@ const Map3D = ({ children, mapOptions }) => {
           if (window.google && window.google.maps) {
             resolve();
           } else if (attempts >= maxAttempts) {
-            reject(new Error('Google Maps API failed to load'));
+            reject(new Error("Google Maps API failed to load"));
           } else {
             attempts++;
             setTimeout(checkGoogleMapsAPI, 500);
@@ -37,7 +37,9 @@ const Map3D = ({ children, mapOptions }) => {
         if (!isMounted) return;
 
         if (!mapInstance) {
-          const { Map3DElement } = await window.google.maps.importLibrary("maps3d");
+          const { Map3DElement } = await window.google.maps.importLibrary(
+            "maps3d"
+          );
 
           const defaultOptions = {
             center: { lat: 0, lng: 0.98, altitude: 1800 },
@@ -51,12 +53,20 @@ const Map3D = ({ children, mapOptions }) => {
           if (mapRef.current) {
             mapRef.current.appendChild(map);
             setMapInstance(map);
+
+            // Add the gmp-click event listener
+            map.addEventListener("gmp-click", handleMapClick);
           }
         }
       } catch (err) {
-        console.error('Error importing maps3d library:', err);
-        if (isMounted) setError('Error importing maps3d library');
+        console.error("Error importing maps3d library:", err);
+        if (isMounted) setError("Error importing maps3d library");
       }
+    };
+
+    // Handle gmp-click event
+    const handleMapClick = (clickEvent) => {
+      console.log("Map3D clicked!", clickEvent);
     };
 
     initMap();
@@ -64,8 +74,17 @@ const Map3D = ({ children, mapOptions }) => {
     return () => {
       isMounted = false;
       // Remove map from DOM only if necessary
-      if (mapInstance && mapRef.current && mapRef.current.contains(mapInstance)) {
+      if (
+        mapInstance &&
+        mapRef.current &&
+        mapRef.current.contains(mapInstance)
+      ) {
         mapRef.current.removeChild(mapInstance);
+      }
+
+      // Remove the gmp-click event listener when component unmounts
+      if (mapInstance) {
+        mapInstance.removeEventListener("gmp-click", handleMapClick);
       }
     };
   }, []); // Use an empty dependency array to run only on initial mount
@@ -76,13 +95,17 @@ const Map3D = ({ children, mapOptions }) => {
 
   return (
     <Map3DContext.Provider value={{ mapInstance }}>
-      <div ref={mapRef} style={{ height: '100%', width: '100%', overflow: 'hidden' }}>
-        {mapInstance && React.Children.map(children, child => {
-          if (!React.isValidElement(child)) return null;
-          return React.cloneElement(child, {
-            key: child.key || Math.random().toString(36).substr(2, 9)
-          });
-        })}
+      <div
+        ref={mapRef}
+        style={{ height: "100%", width: "100%", overflow: "hidden" }}
+      >
+        {mapInstance &&
+          React.Children.map(children, (child) => {
+            if (!React.isValidElement(child)) return null;
+            return React.cloneElement(child, {
+              key: child.key || Math.random().toString(36).substr(2, 9),
+            });
+          })}
       </div>
     </Map3DContext.Provider>
   );

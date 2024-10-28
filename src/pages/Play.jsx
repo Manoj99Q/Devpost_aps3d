@@ -10,7 +10,7 @@ import { useModels } from "../contexts/ModelContext";
 import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
 import useInfinityPath from "../hooks/useInfinityPath";
-import { use } from "framer-motion/client";
+import { mark, use } from "framer-motion/client";
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
   const { models, addModel, removeModel } = useModels();
@@ -88,6 +88,21 @@ const Play = () => {
           //   });
 
           removeMarker("jewelers-building-marker");
+
+          //loop through each obbject in markesDict["primeQuestMarkers"] array
+          markersDict["primeQuestMarkers"].forEach((marker) => {
+            // Assign the onClick handler directly to markerData before adding it
+            const pillarMarker = {
+              ...marker,
+              onClick: () => {
+                console.log(`Removing marker: ${marker.id}`);
+                removeMarker(marker.id);
+              },
+            };
+
+            addMarker(pillarMarker);
+          });
+
           break;
         case "startlostAndFoundQuest":
           Object.entries(markersDict.lostandfoundmarkers).forEach(
