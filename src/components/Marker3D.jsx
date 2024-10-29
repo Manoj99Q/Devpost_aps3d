@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
-import { Map3DContext } from "./Map3D";
-import { s } from "framer-motion/client";
-
+import { Map3DContext } from "../contexts/Map3DContext";
 const Marker3D = ({ markerOptions, onClick, otherOptions }) => {
   const { mapInstance } = useContext(Map3DContext);
   const markerInstanceRef = useRef(null);

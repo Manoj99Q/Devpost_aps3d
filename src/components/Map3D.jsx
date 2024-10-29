@@ -1,40 +1,19 @@
-import React, { useEffect, useRef, useState, createContext } from "react";
-
-export const Map3DContext = createContext();
+// components/Map3D.jsx
+import React, { useState, useEffect, useRef, useContext } from "react";
+import { Map3DContext } from "../contexts/Map3DContext";
 
 const Map3D = ({ children, mapOptions }) => {
   const mapRef = useRef(null);
-  const [mapInstance, setMapInstance] = useState(null);
+  const { mapInstance, setMapInstance, isGoogleMapsLoaded } =
+    useContext(Map3DContext);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
 
-    const waitForGoogleMapsAPI = () => {
-      return new Promise((resolve, reject) => {
-        const maxAttempts = 10;
-        let attempts = 0;
-
-        const checkGoogleMapsAPI = () => {
-          if (window.google && window.google.maps) {
-            resolve();
-          } else if (attempts >= maxAttempts) {
-            reject(new Error("Google Maps API failed to load"));
-          } else {
-            attempts++;
-            setTimeout(checkGoogleMapsAPI, 500);
-          }
-        };
-
-        checkGoogleMapsAPI();
-      });
-    };
-
     const initMap = async () => {
       try {
-        await waitForGoogleMapsAPI();
-
-        if (!isMounted) return;
+        if (!isMounted || !isGoogleMapsLoaded) return;
 
         if (!mapInstance) {
           const { Map3DElement } = await window.google.maps.importLibrary(
@@ -53,8 +32,6 @@ const Map3D = ({ children, mapOptions }) => {
           if (mapRef.current) {
             mapRef.current.appendChild(map);
             setMapInstance(map);
-
-            // Add the gmp-click event listener
             map.addEventListener("gmp-click", handleMapClick);
           }
         }
@@ -64,16 +41,16 @@ const Map3D = ({ children, mapOptions }) => {
       }
     };
 
-    // Handle gmp-click event
     const handleMapClick = (clickEvent) => {
       console.log("Map3D clicked!", clickEvent);
     };
 
-    initMap();
+    if (isGoogleMapsLoaded) {
+      initMap();
+    }
 
     return () => {
       isMounted = false;
-      // Remove map from DOM only if necessary
       if (
         mapInstance &&
         mapRef.current &&
@@ -82,32 +59,29 @@ const Map3D = ({ children, mapOptions }) => {
         mapRef.current.removeChild(mapInstance);
       }
 
-      // Remove the gmp-click event listener when component unmounts
       if (mapInstance) {
         mapInstance.removeEventListener("gmp-click", handleMapClick);
       }
     };
-  }, []); // Use an empty dependency array to run only on initial mount
+  }, [isGoogleMapsLoaded]);
 
   if (error) {
     return <div>Error loading map: {error}</div>;
   }
 
   return (
-    <Map3DContext.Provider value={{ mapInstance }}>
-      <div
-        ref={mapRef}
-        style={{ height: "100%", width: "100%", overflow: "hidden" }}
-      >
-        {mapInstance &&
-          React.Children.map(children, (child) => {
-            if (!React.isValidElement(child)) return null;
-            return React.cloneElement(child, {
-              key: child.key || Math.random().toString(36).substr(2, 9),
-            });
-          })}
-      </div>
-    </Map3DContext.Provider>
+    <div
+      ref={mapRef}
+      style={{ height: "100%", width: "100%", overflow: "hidden" }}
+    >
+      {mapInstance &&
+        React.Children.map(children, (child) => {
+          if (!React.isValidElement(child)) return null;
+          return React.cloneElement(child, {
+            key: child.key || Math.random().toString(36).substr(2, 9),
+          });
+        })}
+    </div>
   );
 };
 

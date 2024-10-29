@@ -9,6 +9,7 @@ import Play from "./pages/Play";
 import { QuestProvider } from "./contexts/QuestContext.jsx";
 import { MarkerProvider } from "./contexts/MarkerContext.jsx";
 import { ModelProvider } from "./contexts/ModelContext.jsx";
+import { Map3DProvider } from "./contexts/Map3DContext.jsx";
 
 function App() {
   useEffect(() => {
@@ -40,17 +41,19 @@ function App() {
     <QuestProvider>
       <MarkerProvider>
         <ModelProvider>
-          <Router>
-            <div className="flex flex-col h-screen overflow-hidden">
-              <Navbar />
-              <div className="flex-grow flex overflow-hidden">
-                <Routes>
-                  <Route path="/" element={<LandingPage />} />
-                  <Route path="/play" element={<Play />} />
-                </Routes>
+          <Map3DProvider>
+            <Router>
+              <div className="flex flex-col h-screen overflow-hidden">
+                <Navbar />
+                <div className="flex-grow flex overflow-hidden">
+                  <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/play" element={<Play />} />
+                  </Routes>
+                </div>
               </div>
-            </div>
-          </Router>
+            </Router>
+          </Map3DProvider>
         </ModelProvider>
       </MarkerProvider>
     </QuestProvider>

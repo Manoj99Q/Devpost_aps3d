@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useContext, useState } from "react";
-import { Map3DContext } from "./Map3D";
+import { Map3DContext } from "../contexts/Map3DContext";
 
 const Model3D = ({ modelOptions }) => {
   const { mapInstance } = useContext(Map3DContext);
