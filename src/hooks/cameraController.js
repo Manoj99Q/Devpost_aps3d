@@ -1,75 +1,99 @@
 import { useContext, useCallback } from "react";
-import { Map3DContext } from "../components/Map3D";
+import { Map3DContext } from "../contexts/Map3DContext";
 
-/**
- * Custom hook for camera animations
- * @returns {Object} Object containing both flyTo and flyAround functions
- */
-export const useCameraAnimations = () => {
+export const useFlyCameraAround = () => {
   const { mapInstance } = useContext(Map3DContext);
 
-  const flyTo = useCallback(
-    async (options = {}) => {
+  return useCallback(
+    async (options) => {
       if (!mapInstance) {
         console.warn("Map instance not available");
         return;
       }
 
-      const { destination, duration = 3000, cameraOptions = {} } = options;
-
-      if (!destination) {
-        console.warn("Destination is required for flyTo");
-        return;
-      }
-
       try {
-        const animationOptions = {
-          ...destination,
-          duration,
-          ...cameraOptions,
+        // Ensure the map is properly loaded
+        await new Promise((resolve) => {
+          if (mapInstance.isReady) {
+            resolve();
+          } else {
+            mapInstance.addEventListener("ready", () => resolve(), {
+              once: true,
+            });
+          }
+        });
+
+        // Default options
+        const defaultOptions = {
+          duration: 10000, // 10 seconds
+          rounds: 1,
+          center: mapInstance.center,
+          altitude: mapInstance.center.altitude,
+          tilt: mapInstance.tilt,
         };
 
-        await mapInstance.flyTo(animationOptions);
+        const animationOptions = { ...defaultOptions, ...options };
+
+        // Start the animation
+        await mapInstance.flyCameraAround(animationOptions);
       } catch (error) {
-        console.error("Error during camera fly to:", error);
+        console.error("Error in flyCameraAround:", error);
+        throw error;
       }
     },
     [mapInstance]
   );
+};
 
-  const flyAround = useCallback(
-    async (options = {}) => {
+/**
+ * Custom hook for flying the camera to a specific position
+ * @returns {Function} Function to trigger the fly to animation
+ */
+export const useFlyCameraTo = () => {
+  const { mapInstance } = useContext(Map3DContext);
+
+  return useCallback(
+    async (options) => {
       if (!mapInstance) {
         console.warn("Map instance not available");
         return;
       }
 
-      const {
-        center,
-        rounds = 1,
-        duration = 5000,
-        cameraOptions = {},
-      } = options;
-
       try {
-        const currentCenter = center || mapInstance.getCenter();
-        const currentHeading = mapInstance.getHeading();
-        const targetHeading = currentHeading + rounds * 360;
+        // Ensure the map is properly loaded
+        await new Promise((resolve) => {
+          if (mapInstance.isReady) {
+            resolve();
+          } else {
+            mapInstance.addEventListener("ready", () => resolve(), {
+              once: true,
+            });
+          }
+        });
 
-        const animationOptions = {
-          center: currentCenter,
-          duration,
-          ...cameraOptions,
-          heading: targetHeading,
+        // Default options
+        const defaultOptions = {
+          duration: 2000, // 2 seconds
+          center: {
+            lat: 0,
+            lng: 0,
+            altitude: 1800,
+          },
+          tilt: mapInstance.tilt,
+          heading: mapInstance.heading,
+          roll: mapInstance.roll,
         };
 
-        await mapInstance.flyTo(animationOptions);
+        const animationOptions = { ...defaultOptions, ...options };
+
+        // Start the animation
+        console.log("Flying camera to:", animationOptions);
+        await mapInstance.flyCameraTo(animationOptions);
       } catch (error) {
-        console.error("Error during camera fly around:", error);
+        console.error("Error in flyCameraTo:", error);
+        throw error;
       }
     },
     [mapInstance]
   );
-
-  return { flyTo, flyAround };
 };

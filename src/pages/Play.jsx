@@ -11,6 +11,7 @@ import { useQuest } from "../contexts/QuestContext";
 import markersDict from "../data/markers";
 import useInfinityPath from "../hooks/useInfinityPath";
 import ExplosionVFX from "../components/ExplosionVFX";
+import { useFlyCameraTo } from "../hooks/cameraController";
 
 const Play = () => {
   const { markers, addMarker, removeMarker, updateMarker } = useMarkers();
@@ -19,6 +20,7 @@ const Play = () => {
   const { showQuest, setDialogueState } = useQuest();
   const [explosions, setExplosions] = useState([]);
   const screenClickCoords = useRef({ x: 0, y: 0 });
+  const flyCameraTo = useFlyCameraTo();
 
   const handleMarkerClick = (marker) => {
     if (marker.onClick) marker.onClick();
@@ -32,6 +34,32 @@ const Play = () => {
       setActiveOverlay({
         component: marker.overlay,
       });
+    }
+    // Get marker's position for camera animation
+    const markerPosition = marker.position || {
+      lat: 41.88647681547819,
+      lng: -87.62733367568534,
+      altitude: 248.55789564302736,
+    };
+
+    try {
+      flyCameraTo({
+        center: {
+          lat: markerPosition.lat,
+          lng: markerPosition.lng,
+          altitude: markerPosition.altitude,
+        },
+        heading: -154.31149465070868,
+        tilt: 74.81083610512397,
+        range: 531.886781518988,
+        roll: 0,
+        duration: 2000,
+      });
+      console.log(
+        `Camera animated to marker at ${markerPosition.lat}, ${markerPosition.lng}`
+      );
+    } catch (error) {
+      console.error("Error animating camera:", error);
     }
   };
 
