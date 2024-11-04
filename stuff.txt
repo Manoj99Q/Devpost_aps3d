@@ -5,3 +5,7 @@ may have chain of quests
 
 OldMan lost his stuff around Chicago; just click on stuff or polyLines
 
+running amrker or model continusly
+
+Shrininkg polyline to pinpoint the goal
+

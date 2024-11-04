@@ -21,29 +21,31 @@ const Play = () => {
   const [explosions, setExplosions] = useState([]);
   const screenClickCoords = useRef({ x: 0, y: 0 });
   const flyCameraTo = useFlyCameraTo();
+  const handleMarkerClick = async (marker) => {
+    console.log("Marker clicked, starting camera animation");
 
-  const handleMarkerClick = (marker) => {
     if (marker.onClick) marker.onClick();
-    // Extract the character ID from the marker ID (remove the '-marker' suffix)
+
     if (marker.quest) {
       showQuest(marker.quest);
     }
-    console.log(marker);
 
     if (marker.overlay) {
       setActiveOverlay({
         component: marker.overlay,
       });
     }
-    // Get marker's position for camera animation
-    const markerPosition = marker.position || {
-      lat: 41.88647681547819,
-      lng: -87.62733367568534,
-      altitude: 248.55789564302736,
-    };
+
+    const markerPosition = marker.position ||
+      marker.markerOptions?.position || {
+        lat: 41.88647681547819,
+        lng: -87.62733367568534,
+        altitude: 248.55789564302736,
+      };
 
     try {
-      flyCameraTo({
+      console.log("Flying to marker position:", markerPosition);
+      await flyCameraTo({
         center: {
           lat: markerPosition.lat,
           lng: markerPosition.lng,
@@ -55,14 +57,10 @@ const Play = () => {
         roll: 0,
         duration: 2000,
       });
-      console.log(
-        `Camera animated to marker at ${markerPosition.lat}, ${markerPosition.lng}`
-      );
     } catch (error) {
-      console.error("Error animating camera:", error);
+      console.error("Error flying to marker:", error);
     }
   };
-
   useEffect(() => {
     const handleWillisClick = (event) => {
       console.log("Willis clicked!", event.detail);
@@ -230,7 +228,7 @@ const Play = () => {
               otherOptions={marker.otherOptions}
               onClick={(clickEvent) => {
                 console.log("yolyoyl", clickEvent);
-                handleMarkerClick(marker, clickEvent);
+                handleMarkerClick(marker);
               }}
             />
           );

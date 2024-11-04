@@ -1,79 +1,48 @@
+// hooks/cameraController.js
 import { useContext, useCallback } from "react";
 import { Map3DContext } from "../contexts/Map3DContext";
 
-export const useFlyCameraAround = () => {
-  const { mapInstance } = useContext(Map3DContext);
-
-  return useCallback(
-    async (options) => {
-      if (!mapInstance) {
-        console.warn("Map instance not available");
-        return;
-      }
-
-      try {
-        // Ensure the map is properly loaded
-        await new Promise((resolve) => {
-          if (mapInstance.isReady) {
-            resolve();
-          } else {
-            mapInstance.addEventListener("ready", () => resolve(), {
-              once: true,
-            });
-          }
-        });
-
-        // Default options
-        const defaultOptions = {
-          duration: 10000, // 10 seconds
-          rounds: 1,
-          center: mapInstance.center,
-          altitude: mapInstance.center.altitude,
-          tilt: mapInstance.tilt,
-        };
-
-        const animationOptions = { ...defaultOptions, ...options };
-
-        // Start the animation
-        await mapInstance.flyCameraAround(animationOptions);
-      } catch (error) {
-        console.error("Error in flyCameraAround:", error);
-        throw error;
-      }
-    },
-    [mapInstance]
-  );
-};
-
-/**
- * Custom hook for flying the camera to a specific position
- * @returns {Function} Function to trigger the fly to animation
- */
 export const useFlyCameraTo = () => {
   const { mapInstance } = useContext(Map3DContext);
 
+  // console.log("Current map instance in hook:", mapInstance); // Debug log
+
   return useCallback(
     async (options) => {
+      console.log("flyCameraTo called with options:", options); // Debug log
+
       if (!mapInstance) {
         console.warn("Map instance not available");
         return;
       }
 
       try {
-        // Ensure the map is properly loaded
-        await new Promise((resolve) => {
-          if (mapInstance.isReady) {
-            resolve();
-          } else {
-            mapInstance.addEventListener("ready", () => resolve(), {
-              once: true,
-            });
-          }
-        });
+        // Check if map instance has the method
+        if (typeof mapInstance.flyCameraTo !== "function") {
+          console.error("flyCameraTo method not found on map instance");
+          return;
+        }
+
+        // Check if map is ready
+        if (!mapInstance.isReady) {
+          console.log("Waiting for map to be ready...");
+          await new Promise((resolve) => {
+            const checkReady = () => {
+              if (mapInstance.isReady) {
+                resolve();
+              } else {
+                setTimeout(checkReady, 100);
+              }
+            };
+            checkReady();
+          });
+        }
+
+        console.log("Map is ready, starting animation");
 
         // Default options
         const defaultOptions = {
-          duration: 2000, // 2 seconds
+          duration: 2000,
           center: {
             lat: 0,
             lng: 0,
@@ -85,12 +54,72 @@ export const useFlyCameraTo = () => {
         };
 
         const animationOptions = { ...defaultOptions, ...options };
+        console.log("Final animation options:", animationOptions);
 
-        // Start the animation
-        console.log("Flying camera to:", animationOptions);
+        // Execute the animation
         await mapInstance.flyCameraTo(animationOptions);
+        console.log("Animation completed successfully");
       } catch (error) {
         console.error("Error in flyCameraTo:", error);
+        throw error;
+      }
+    },
+    [mapInstance]
+  );
+};
+
+export const useFlyCameraAround = () => {
+  const { mapInstance } = useContext(Map3DContext);
+
+  return useCallback(
+    async (options) => {
+      console.log("flyCameraAround called with options:", options);
+
+      if (!mapInstance) {
+        console.warn("Map instance not available");
+        return;
+      }
+
+      try {
+        // Check if map instance has the method
+        if (typeof mapInstance.flyCameraAround !== "function") {
+          console.error("flyCameraAround method not found on map instance");
+          return;
+        }
+
+        // Check if map is ready
+        if (!mapInstance.isReady) {
+          await new Promise((resolve) => {
+            const checkReady = () => {
+              if (mapInstance.isReady) {
+                resolve();
+              } else {
+                setTimeout(checkReady, 100);
+              }
+            };
+            checkReady();
+          });
+        }
+
+        // Default options
+        const defaultOptions = {
+          duration: 10000,
+          rounds: 1,
+          center: mapInstance.center,
+          altitude: mapInstance.center.altitude,
+          tilt: mapInstance.tilt,
+        };
+
+        const animationOptions = { ...defaultOptions, ...options };
+        console.log(
+          "Starting camera around animation with options:",
+          animationOptions
+        );
+
+        await mapInstance.flyCameraAround(animationOptions);
+        console.log("Around animation completed successfully");
+      } catch (error) {
+        console.error("Error in flyCameraAround:", error);
         throw error;
       }
     },
